@@ -1,0 +1,35 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Rocketseat 1#Hackathon WMS Documentation",
+    "description": "API for WMS, developed for the first Rocketseat Hackathon",
+    "version": "1.0.0",
+    "contact": {
+      "email": "regisprogramming@gmail.com"
+    }
+  },
+  "paths": {
+    "/ping": {
+      "get": {
+        "tags": ["Ping"],
+        "summary": "Default route for testing",
+        "description": "Default route for testing",
+        "responses": {
+          "200": {
+            "description": "Pong",
+            "success": true
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

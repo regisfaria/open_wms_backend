@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  postgres_database:
+    image: postgres
+    container_name: postgres_database
+    restart: always
+    ports:
+      - 5432:5432
+    environment: 
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=hacka_wms
+    volumes:
+      - pgdata:/data/postgres
+
+  app:
+    build: .
+    container_name: hacka_wms
+    restart: always
+    links:
+      - postgres_database
+    depends_on:
+      - postgres_database
+    ports: 
+      - 3333:3333
+    volumes:
+      - .:/usr/app
+
+
+volumes:
+  pgdata:
+    driver: local

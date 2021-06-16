@@ -4,6 +4,8 @@ node_modules/
 
 .env
 
+coverage/
+
 ormconfig.json
 
 .DS_Store

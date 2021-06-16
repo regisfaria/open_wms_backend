@@ -49,22 +49,22 @@ export class Item {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  // @Expose({ name: 'imageUrl' })
-  // getImageUrl(): string | null {
-  //   if (!this.image) {
-  //     return null;
-  //   }
-
-  //   switch (uploadConfig.driver) {
-  //     case 'disk':
-  //       return this.image
-  //         ? `${process.env.APP_API_URL}/files/${this.image}`
-  //         : null;
-  //     case 's3':
-  //       return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.image}`;
-  //     default:
-  //       return null;
-  //   }
-  // }
 }
+
+// @Expose({ name: 'imageUrl' })
+// getImageUrl(): string | null {
+//   if (!this.image) {
+//     return null;
+//   }
+
+//   switch (uploadConfig.driver) {
+//     case 'disk':
+//       return this.image
+//         ? `${process.env.APP_API_URL}/files/${this.image}`
+//         : null;
+//     case 's3':
+//       return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.image}`;
+//     default:
+//       return null;
+//   }
+// }

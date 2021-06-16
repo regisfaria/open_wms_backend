@@ -1,0 +1,2 @@
+// test
+export interface ICreateItemDTO {}

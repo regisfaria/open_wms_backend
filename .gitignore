@@ -9,3 +9,5 @@ coverage/
 ormconfig.json
 
 .DS_Store
+
+wms-hackathon.pem

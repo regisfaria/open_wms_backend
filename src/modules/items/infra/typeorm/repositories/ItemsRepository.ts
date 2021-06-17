@@ -36,14 +36,16 @@ class ItemsRepository implements IItemsRepository {
     return item;
   }
 
-  update(item: Item): Promise<void> {
-    throw new Error('Method not implemented.');
+  async update(item: Item): Promise<void> {
+    await this.repository.save(item);
   }
   delete(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  findById(id: string): Promise<Item> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<Item> {
+    const item = await this.repository.findOne(id);
+
+    return item;
   }
   findAllFromUser(userId: string): Promise<Item[]> {
     throw new Error('Method not implemented.');

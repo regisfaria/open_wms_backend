@@ -58,7 +58,7 @@ describe('UpdateUser', () => {
       login: 'gisreriafa',
     });
 
-    expect(updatedUser.name).toBe('Regis Faria');
+    expect(updatedUser.login).toBe('gisreriafa');
   });
 
   it('should not be able to update one user without passing any new values', async () => {

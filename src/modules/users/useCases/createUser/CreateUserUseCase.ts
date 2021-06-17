@@ -43,11 +43,11 @@ class CreateUserUseCase {
       throw new AppError('Este número de telefone já está em uso.');
     }
 
-    const passwordHash = await hash(password, 8);
+    const hashedPassword = await hash(password, 8);
 
     const user = await this.usersRepository.create({
       name,
-      password: passwordHash,
+      password: hashedPassword,
       email,
       login,
       phone: parsedPhone,

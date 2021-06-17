@@ -1,4 +1,4 @@
-// import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import { Item } from '@modules/items/infra/typeorm/entities/Item';
 import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
@@ -6,10 +6,10 @@ import { AppError } from '@shared/errors/AppError';
 
 import { ICreateItemDTO } from '../../dtos/ICreateItemDTO';
 
-// @injectable()
+@injectable()
 class CreateItemUseCase {
   constructor(
-    // @inject('UsersRepository')
+    @inject('ItemsRepository')
     private itemsRepository: IItemsRepository,
   ) {}
 

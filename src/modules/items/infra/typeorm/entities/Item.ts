@@ -49,6 +49,9 @@ export class Item {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  measureUnity: string;
 }
 
 // @Expose({ name: 'imageUrl' })

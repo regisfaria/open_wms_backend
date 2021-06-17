@@ -18,16 +18,20 @@ export class FakeItemsRepository implements IItemsRepository {
     return item;
   }
 
-  update(item: Item): Promise<void> {
+  async update(item: Item): Promise<void> {
+    const itemIndex = this.items.findIndex(
+      itemToFind => itemToFind.id === item.id,
+    );
+
+    this.items[itemIndex] = item;
+  }
+
+  async delete(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
-  findById(id: string): Promise<Item> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<Item> {
+    return this.items.find(item => item.id === id);
   }
 
   findAllFromUser(userId: string): Promise<Item[]> {

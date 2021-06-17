@@ -1,4 +1,5 @@
 import { FakeUsersRepository } from '@modules/users/repositories/fakes/FakeUsersRepository';
+import { AppError } from '@shared/errors/AppError';
 
 import { CreateUserUseCase } from './CreateUserUseCase';
 
@@ -24,5 +25,77 @@ describe('CreateUser', () => {
     const user = await createUserUseCase.execute(userData);
 
     expect(user).toHaveProperty('id');
+  });
+
+  it('should not be able to create an user with an email that is already in use', async () => {
+    const userData = {
+      name: 'John Doe',
+      password: '123456',
+      login: 'johndoe',
+      email: 'johndoe@email.com',
+      phone: '(12)93456-7890',
+    };
+
+    const anotherUserData = {
+      name: 'Johny Doeh',
+      password: '654321',
+      login: 'johnydoeh',
+      email: 'johndoe@email.com',
+      phone: '(21)65439-0987',
+    };
+
+    await createUserUseCase.execute(userData);
+
+    await expect(
+      createUserUseCase.execute(anotherUserData),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create an user with an login that is already in use', async () => {
+    const userData = {
+      name: 'John Doe',
+      password: '123456',
+      login: 'johndoe',
+      email: 'johndoe@email.com',
+      phone: '(12)93456-7890',
+    };
+
+    const anotherUserData = {
+      name: 'Johny Doeh',
+      password: '654321',
+      login: 'johndoe',
+      email: 'johnydoeh@email.com',
+      phone: '(21)65439-0987',
+    };
+
+    await createUserUseCase.execute(userData);
+
+    await expect(
+      createUserUseCase.execute(anotherUserData),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create an user with an email that is already in use', async () => {
+    const userData = {
+      name: 'John Doe',
+      password: '123456',
+      login: 'johndoe',
+      email: 'johndoe@email.com',
+      phone: '(12)93456-7890',
+    };
+
+    const anotherUserData = {
+      name: 'Johny Doeh',
+      password: '654321',
+      login: 'johnydoeh',
+      email: 'johnydoeh@email.com',
+      phone: '(12)93456-7890',
+    };
+
+    await createUserUseCase.execute(userData);
+
+    await expect(
+      createUserUseCase.execute(anotherUserData),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

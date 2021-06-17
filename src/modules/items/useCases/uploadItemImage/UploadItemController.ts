@@ -8,9 +8,9 @@ class UploadItemImageController {
     const { id } = request.params;
     const { filename } = request.file;
 
-    const uploadCarImageUseCase = container.resolve(UploadItemImageUseCase);
+    const uploadItemImageUseCase = container.resolve(UploadItemImageUseCase);
 
-    await uploadCarImageUseCase.execute({
+    await uploadItemImageUseCase.execute({
       item_id: id,
       imagem_name: filename,
     });

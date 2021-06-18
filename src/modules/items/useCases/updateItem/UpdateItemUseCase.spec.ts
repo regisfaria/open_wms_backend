@@ -23,7 +23,6 @@ describe('Update item useCase', () => {
       category: 'perecíveis',
       minimumStock: 10,
       daysToNotifyExpirationDate: 3,
-      image: 'image6674438.png',
       measureUnity: 'QTD',
     };
 
@@ -33,7 +32,6 @@ describe('Update item useCase', () => {
       id: oldItem.id,
       category: 'Temperos',
       daysToNotifyExpirationDate: 15,
-      image: 'tomato.png',
       measureUnity: 'Unidade',
       minimumStock: 10,
       name: 'Massa de tomate 500ml',
@@ -43,7 +41,6 @@ describe('Update item useCase', () => {
     expect(updatedUser.name).toBe('Massa de tomate 500ml');
     expect(updatedUser.minimumStock).toBe(10);
     expect(updatedUser.measureUnity).toBe('Unidade');
-    expect(updatedUser.image).toBe('tomato.png');
     expect(updatedUser.daysToNotifyExpirationDate).toBe(15);
     expect(updatedUser.category).toBe('Temperos');
   });
@@ -55,7 +52,6 @@ describe('Update item useCase', () => {
       category: 'perecíveis',
       minimumStock: 10,
       daysToNotifyExpirationDate: 3,
-      image: 'image6674438.png',
       measureUnity: 'QTD',
     };
 
@@ -77,7 +73,6 @@ describe('Update item useCase', () => {
       category: 'perecíveis',
       minimumStock: 10,
       daysToNotifyExpirationDate: 3,
-      image: 'image6674438.png',
       measureUnity: 'QTD',
     };
 
@@ -108,7 +103,6 @@ describe('Update item useCase', () => {
       category: 'perecíveis',
       minimumStock: 10,
       daysToNotifyExpirationDate: 3,
-      image: 'image6674438.png',
       measureUnity: 'QTD',
     };
 
@@ -130,7 +124,6 @@ describe('Update item useCase', () => {
       category: 'perecíveis',
       minimumStock: 10,
       daysToNotifyExpirationDate: 3,
-      image: 'image6674438.png',
       measureUnity: 'QTD',
     };
 

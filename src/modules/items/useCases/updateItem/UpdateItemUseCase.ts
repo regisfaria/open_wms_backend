@@ -9,7 +9,6 @@ interface IRequest {
   category?: string;
   minimumStock?: number;
   daysToNotifyExpirationDate?: number;
-  image?: string;
   measureUnity?: string;
 }
 
@@ -19,13 +18,12 @@ class UpdateItemUseCase {
     category,
     daysToNotifyExpirationDate,
     id,
-    image,
     measureUnity,
     minimumStock,
     name,
     userId,
   }: IRequest): Promise<Item> {
-    if (!category && !image && !measureUnity && !name) {
+    if (!category && !measureUnity && !name) {
       throw new AppError(
         'Você não pode acessar esse serviço sem fornecer nenhum valor novo. Tente atualizar pelo menos um valor.',
       );
@@ -59,9 +57,7 @@ class UpdateItemUseCase {
         throw new AppError('Data para notificar sobre a validade invalido.');
       }
     }
-    if (image) {
-      item.image = image;
-    }
+
     if (measureUnity) {
       item.measureUnity = measureUnity;
     }

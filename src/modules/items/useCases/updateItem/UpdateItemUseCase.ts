@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe';
+
 import { Item } from '@modules/items/infra/typeorm/entities/Item';
 import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
 import { AppError } from '@shared/errors/AppError';
@@ -12,8 +14,12 @@ interface IRequest {
   measureUnity?: string;
 }
 
+@injectable()
 class UpdateItemUseCase {
-  constructor(private itemsRepository: IItemsRepository) {}
+  constructor(
+    @inject('ItemsRepository')
+    private itemsRepository: IItemsRepository,
+  ) {}
   async execute({
     category,
     daysToNotifyExpirationDate,
@@ -40,7 +46,7 @@ class UpdateItemUseCase {
         userId,
       );
 
-      if (nameAlreadyExist) {
+      if (nameAlreadyExist && nameAlreadyExist.id !== id) {
         throw new AppError('Item já cadastrado');
       }
 

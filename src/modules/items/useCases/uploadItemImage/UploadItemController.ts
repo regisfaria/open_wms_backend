@@ -13,7 +13,7 @@ class UploadItemImageController {
     const uploadItemImageUseCase = container.resolve(UploadItemImageUseCase);
 
     await uploadItemImageUseCase.execute({
-      item_id: id,
+      itemId: id,
       imagem_name: filename,
     });
 

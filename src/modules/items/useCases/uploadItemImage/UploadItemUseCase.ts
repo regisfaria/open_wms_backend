@@ -6,7 +6,7 @@ import { AppError } from '@shared/errors/AppError';
 import { deleteFile } from '../../../../utils/file';
 
 interface IRequest {
-  item_id: string;
+  itemId: string;
   imagem_name?: string;
 }
 
@@ -16,8 +16,8 @@ class UploadItemImageUseCase {
     @inject('ItemsRepository')
     private itemsRepository: IItemsRepository,
   ) {}
-  async execute({ item_id, imagem_name }: IRequest): Promise<void> {
-    const item = await this.itemsRepository.findById(item_id);
+  async execute({ itemId, imagem_name }: IRequest): Promise<void> {
+    const item = await this.itemsRepository.findById(itemId);
 
     if (!item) {
       throw new AppError('Item não cadastrado');

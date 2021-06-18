@@ -1,6 +1,5 @@
 import { AppError } from '@shared/errors/AppError';
 
-import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository';
 import { CreateUserUseCase } from '../createUser/CreateUserUseCase';
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase';

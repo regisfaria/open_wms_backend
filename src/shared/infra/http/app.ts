@@ -1,5 +1,6 @@
 // import 'dotenv/config';
 import 'reflect-metadata';
+import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import swaggerUi from 'swagger-ui-express';
@@ -15,6 +16,8 @@ import '@shared/container';
 createConnection();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 

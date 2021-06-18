@@ -11,3 +11,7 @@ ormconfig.json
 .DS_Store
 
 wms-hackathon.pem
+
+tmp/items/*.jpg
+tmp/items/*.png
+tmp/items/*.jpeg

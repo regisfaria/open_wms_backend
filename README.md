@@ -15,7 +15,7 @@ Instale as dependencias com:
 yarn OU npm install
 ```
 
-Temos um arquivo na pasta raiz do projeto, chamado **"ormconfig.example.json"**. Este arquivo contém as configuraçōes do banco e você deve copia-lo e criar um **"ormconfig.json"** com o mesmo conteudo.
+Temos um arquivo na pasta raiz do projeto, chamado **"ormconfig.example.json"**. Este arquivo contém as configuraçōes do banco e você deve copia-lo e criar um **"ormconfig.json"** com o mesmo conteudo. Da mesma forma, temos um arquivo **".env.example"**, onde também é preciso copia-lo e criar um **".env"**.
 
 Em seguida, rode o seguinte comando para rodar as migrations do banco de dados:
 ```shell

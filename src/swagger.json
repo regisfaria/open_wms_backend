@@ -184,6 +184,106 @@
           },
           "400": {
             "description": "Item já cadastrado"
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
+      }
+    },
+    "/items/image/{id}": {
+      "patch": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Update or save a new image from item",
+        "description": "In this route you can update or insert one image from item",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Item ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/items/{id}": {
+      "put": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Update item",
+        "description": "In this route you can update item info",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Item ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CreateItemPostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Caso ja exista um item desse usuário com esse nome."
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
           }
         }
       }

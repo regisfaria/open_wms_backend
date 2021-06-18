@@ -7,7 +7,7 @@ import { deleteFile } from '../../../../utils/file';
 
 interface IRequest {
   itemId: string;
-  imagem_name?: string;
+  imageName?: string;
 }
 
 @injectable()
@@ -16,7 +16,7 @@ class UploadItemImageUseCase {
     @inject('ItemsRepository')
     private itemsRepository: IItemsRepository,
   ) {}
-  async execute({ itemId, imagem_name }: IRequest): Promise<void> {
+  async execute({ itemId, imageName }: IRequest): Promise<void> {
     const item = await this.itemsRepository.findById(itemId);
 
     if (!item) {
@@ -27,7 +27,7 @@ class UploadItemImageUseCase {
       await deleteFile(`./tmp/items/${item.image}`);
     }
 
-    item.image = imagem_name;
+    item.image = imageName;
 
     await this.itemsRepository.update(item);
   }

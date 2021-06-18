@@ -34,13 +34,13 @@ class AuthenticateUserUseCase {
     const user = await this.usersRepository.findByLogin(login);
 
     if (!user) {
-      throw new AppError('Email or password incorrect');
+      throw new AppError('Login ou senha incorretas.');
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new AppError('Email or password incorrect');
+      throw new AppError('Login ou senha incorretas.');
     }
 
     const { expiresInToken, secretToken } = authConfig;

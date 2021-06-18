@@ -19,7 +19,6 @@ class CreateItemUseCase {
     name,
     userId,
     daysToNotifyExpirationDate,
-    image,
     minimumStock,
   }: ICreateItemDTO): Promise<Item> {
     const itemAlreadyExist = await this.itemsRepository.findByNameFromUser(
@@ -37,7 +36,6 @@ class CreateItemUseCase {
       name,
       userId,
       daysToNotifyExpirationDate,
-      image,
       minimumStock,
     });
 

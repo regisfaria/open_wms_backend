@@ -8,4 +8,5 @@ export interface IUsersRepository {
   findByEmail(email: string): Promise<User>;
   findByPhone(phone: string): Promise<User>;
   findByLogin(login: string): Promise<User>;
+  // findAllPhoneNumbers()
 }

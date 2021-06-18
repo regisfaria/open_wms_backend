@@ -9,13 +9,11 @@ class CreateItemController {
       name,
       category,
       measureUnity,
-      userId, // NEED TO DELETE WHEN FINISH AUTH MIDDLEWARE
       daysToNotifyExpirationDate,
-      image,
       minimumStock,
     } = request.body;
 
-    const { id } = { id: '1245' }; // request.user NEED TO CHANGE WHEN FINISH AUTH MIDDLEWARE
+    const { id: userId } = request.user;
 
     const createItem = container.resolve(CreateItemUseCase);
 
@@ -25,7 +23,6 @@ class CreateItemController {
       measureUnity,
       userId,
       daysToNotifyExpirationDate,
-      image,
       minimumStock,
     });
 

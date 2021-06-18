@@ -23,11 +23,13 @@ class UploadItemImageUseCase {
       throw new AppError('Item não cadastrado');
     }
 
+    if (item.image) {
+      await deleteFile(`./tmp/items/${item.image}`);
+    }
+
     item.image = imagem_name;
 
     await this.itemsRepository.update(item);
-
-    await deleteFile(`./tmp/items/${imagem_name}`);
   }
 }
 

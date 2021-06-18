@@ -8,6 +8,8 @@ class UploadItemImageController {
     const { id } = request.params;
     const { filename } = request.file;
 
+    console.log(request.file);
+
     const uploadItemImageUseCase = container.resolve(UploadItemImageUseCase);
 
     await uploadItemImageUseCase.execute({

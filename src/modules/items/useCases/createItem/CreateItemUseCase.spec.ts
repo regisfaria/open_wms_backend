@@ -20,7 +20,6 @@ describe('Create item useCase', () => {
       category: 'perecíveis',
       minimumStock: 10,
       daysToNotifyExpirationDate: 3,
-      image: 'image6674438.png',
       measureUnity: 'QTD',
     };
 

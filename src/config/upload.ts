@@ -1,20 +1,25 @@
 import crypto from 'crypto';
-import multer from 'multer';
+import multer, { StorageEngine } from 'multer';
 import { resolve } from 'path';
 
-export default {
-  upload(folder: string) {
-    return {
-      storage: multer.diskStorage({
-        destination: resolve(__dirname, '..', '..', folder),
-        filename: (request, file, callback) => {
-          const fileHash = crypto.randomBytes(16).toString('hex');
+interface IUpload {
+  storage: StorageEngine;
+}
 
-          const fileName = `${fileHash}-${file.originalname}`;
+const uploadsFolder = resolve(__dirname, '..', '..', 'tmp/items');
 
-          return callback(null, fileName);
-        },
-      }),
-    };
-  },
-};
+function multerUploadConfig(): IUpload {
+  return {
+    storage: multer.diskStorage({
+      destination: resolve(__dirname, '..', '..', uploadsFolder),
+      filename: (request, file, callback) => {
+        const fileHash = crypto.randomBytes(16).toString('hex');
+        const fileName = `${fileHash}-${file.originalname}`;
+
+        return callback(null, fileName);
+      },
+    }),
+  };
+}
+
+export { multerUploadConfig, uploadsFolder };

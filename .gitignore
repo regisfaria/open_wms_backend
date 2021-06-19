@@ -15,3 +15,5 @@ wms-hackathon.pem
 tmp/items/*.jpg
 tmp/items/*.png
 tmp/items/*.jpeg
+
+tmp/testingSms.ts

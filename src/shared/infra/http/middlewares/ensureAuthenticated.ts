@@ -17,7 +17,7 @@ export async function ensureAuthenticated(
 
   if (!authHeader) {
     throw new AppError(
-      'Você precisa se autenticar para acessar esse recurso.',
+      'ER-Você precisa se autenticar para acessar esse recurso.',
       401,
     );
   }
@@ -31,6 +31,6 @@ export async function ensureAuthenticated(
 
     next();
   } catch (invalidToken) {
-    throw new AppError('Invalid Token or Refresh Token', 401);
+    throw new AppError('Token invalido', 401, 'tokenExpiredOrInvalid');
   }
 }

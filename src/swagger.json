@@ -11,7 +11,9 @@
   "paths": {
     "/ping": {
       "get": {
-        "tags": ["Ping"],
+        "tags": [
+          "Ping"
+        ],
         "summary": "Default route for testing if the API is working and live.",
         "description": "Default route for testing if the API is working and live.",
         "responses": {
@@ -24,7 +26,9 @@
     },
     "/users": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Create one user",
         "description": "In this route you can create one user",
         "requestBody": {
@@ -55,11 +59,15 @@
     },
     "/users/{id}": {
       "put": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Update a logged user",
         "description": "In this endpoint you can update all user's infos. You can update one or all data at once. If password is to be changed, you must give currentPassword and newPassword. If no new data is given, server will throw an error.",
         "security": [
-          { "bearerAuth": [] }
+          {
+            "bearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -103,7 +111,9 @@
     },
     "/sessions": {
       "post": {
-        "tags": ["Sessions"],
+        "tags": [
+          "Sessions"
+        ],
         "summary": "Authenticate User",
         "description": "Here you can make the authentication of an user",
         "requestBody": {
@@ -113,10 +123,10 @@
                 "type": "object",
                 "properties": {
                   "login": {
-                    "type":"string"
+                    "type": "string"
                   },
                   "password": {
-                    "type":"string"
+                    "type": "string"
                   }
                 }
               }
@@ -136,6 +146,144 @@
           },
           "400": {
             "description": "Login ou senha incorretas."
+          }
+        }
+      }
+    },
+    "/items": {
+      "post": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Create one item",
+        "description": "In this route you can create one item",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CreateItemPostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item já cadastrado"
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
+      }
+    },
+    "/items/image/{id}": {
+      "patch": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Update or save a new image from item",
+        "description": "In this route you can update or insert one image from item",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Item ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/items/{id}": {
+      "put": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Update item",
+        "description": "In this route you can update item info",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Item ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CreateItemPostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Caso ja exista um item desse usuário com esse nome."
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
           }
         }
       }
@@ -262,6 +410,62 @@
         },
         "token": {
           "type": "string"
+        }
+      }
+    },
+    "CreateItemPostBody": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "measureUnity": {
+          "type": "string"
+        },
+        "daysToNotifyExpirationDate": {
+          "type": "number"
+        },
+        "minimumStock": {
+          "type": "number"
+        }
+      }
+    },
+    "ItemResponse": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "properties": {
+            "userId": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "minimumStock": {
+              "type": "number"
+            },
+            "daysToNotifyExpirationDate": {
+              "type": "number"
+            },
+            "measureUnity": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            }
+          }
         }
       }
     }

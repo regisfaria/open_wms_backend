@@ -189,6 +189,62 @@
             "description": "Você precisa se autenticar para acessar esse recurso."
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Listar todos os items ativos do usuário",
+        "description": "Nessa rota é feito a listagem dos items do usuário que estão ativo, podendo ser aplicado filtros de unidade de medida, categoria e nome pelo paramento de query",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nome do item",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Categoria do item",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "measureUnity",
+            "in": "query",
+            "description": "Unidade de medida do item",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ListItemsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
       }
     },
     "/items/image/{id}": {
@@ -464,6 +520,46 @@
             },
             "updatedAt": {
               "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ListItemsResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "minimumStock": {
+                "type": "number"
+              },
+              "daysToNotifyExpirationDate": {
+                "type": "number"
+              },
+              "measureUnity": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "updatedAt": {
+                "type": "string"
+              }
             }
           }
         }

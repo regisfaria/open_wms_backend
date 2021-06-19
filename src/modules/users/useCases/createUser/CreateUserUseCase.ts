@@ -73,18 +73,21 @@ class CreateUserUseCase {
       token,
     });
 
-    const filePath = resolveTemplatePath('confirmAccount');
-    const variables = {
-      name,
-      confirmUrl: `${process.env.APP_FRONTEND_URL}/verify/${token}`,
-    };
-
-    await this.mailProvider.sendMail(
-      email,
-      'OpenWMS - Confirmação de conta',
-      variables,
-      filePath,
-    );
+    const file = resolveTemplatePath('confirmAccount');
+    await this.mailProvider.sendMail({
+      to: {
+        name,
+        email,
+      },
+      subject: 'OpenWMS - Confirmação de conta',
+      templateData: {
+        file,
+        variables: {
+          name,
+          confirmUrl: `${process.env.APP_FRONTEND_URL}/verify/${token}`,
+        },
+      },
+    });
 
     return user;
   }

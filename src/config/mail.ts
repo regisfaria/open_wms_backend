@@ -14,7 +14,7 @@ const mailConfig = {
 
   defaults: {
     from: {
-      email: 'Open WMS<noreply@openwms.com>',
+      email: 'support@openwms.com',
       name: 'Open WMS',
     },
   },

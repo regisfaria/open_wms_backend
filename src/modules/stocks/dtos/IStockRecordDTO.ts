@@ -1,8 +1,8 @@
-interface IInputStockDTO {
+interface IStockRecordDTO {
   quantity: number;
   value: number;
   expirationDate?: string;
   itemId: string;
 }
 
-export { IInputStockDTO };
+export { IStockRecordDTO };

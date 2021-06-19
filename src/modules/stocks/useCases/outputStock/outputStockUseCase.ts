@@ -6,13 +6,16 @@ import { Stock } from '@modules/stocks/infra/typeorm/entities/Stock';
 import { IStocksRepository } from '@modules/stocks/repositories/IStocksRepository';
 import { AppError } from '@shared/errors/AppError';
 
+import { CalculateStockItemUseCase } from '../calculateStockItem/calculateStockItemUseCase';
+
 @injectable()
-class InputStockUseCase {
+class OutputStockUseCase {
   constructor(
     @inject('StocksRepository')
     private stockRepository: IStocksRepository,
     @inject('ItemsRepository')
     private itemsRepository: IItemsRepository,
+    private calculateStockItem: CalculateStockItemUseCase,
   ) {}
 
   async execute({
@@ -27,15 +30,17 @@ class InputStockUseCase {
       throw new AppError('Item não existe');
     }
 
-    if (quantity < 1 || !Number.isInteger(quantity)) {
-      throw new AppError('Quantidade a ser inserida invalida');
+    const quantityInStock = await this.calculateStockItem.execute(itemId);
+
+    if (quantityInStock - quantity < 0) {
+      throw new AppError('Quantidade a ser removida invalida');
     }
 
     if (value < 1) {
       throw new AppError('Valor do estoque invalido');
     }
 
-    const stock = await this.stockRepository.input({
+    const stock = await this.stockRepository.output({
       itemId,
       quantity,
       value,
@@ -46,4 +51,4 @@ class InputStockUseCase {
   }
 }
 
-export { InputStockUseCase };
+export { OutputStockUseCase };

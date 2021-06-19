@@ -1,14 +1,11 @@
+import { ISendMailDTO } from '../dtos/ISendMailDTO';
 import { IMailProvider } from '../models/IMailProvider';
 
-class FakeMailProvider implements IMailProvider {
-  async sendMail(
-    to: string,
-    subject: string,
-    variables: Record<string, unknown>,
-    path: string,
-  ): Promise<void> {
-    console.log(`MAIL SENDED TO ${to}`);
+export class FakeMailProvider implements IMailProvider {
+  private messages: ISendMailDTO[] = [];
+
+  public async sendMail(message: ISendMailDTO): Promise<void> {
+    this.messages.push(message);
+    console.log(`MESSAGE SENT TO ${message.to}`);
   }
 }
-
-export { FakeMailProvider };

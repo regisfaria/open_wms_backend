@@ -1,10 +1,5 @@
-interface IMailProvider {
-  sendMail(
-    to: string,
-    subject: string,
-    variables: Record<string, unknown>,
-    path: string,
-  ): Promise<void>;
-}
+import { ISendMailDTO } from '../dtos/ISendMailDTO';
 
-export { IMailProvider };
+export interface IMailProvider {
+  sendMail(data: ISendMailDTO): Promise<void>;
+}

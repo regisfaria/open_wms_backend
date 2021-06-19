@@ -1,8 +1,13 @@
 import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
+import { v4 as uuidv4 } from 'uuid';
 
 import { User } from '@modules/users/infra/typeorm/entities/User';
+import { IUsersTokensRepository } from '@modules/users/repositories/IUsersTokensRepository';
+import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { AppError } from '@shared/errors/AppError';
+import { getDateAddedByDays } from '@shared/utils/getDateAddedByDays';
+import { resolveTemplatePath } from '@shared/utils/resolveTemplatePath';
 
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
@@ -12,6 +17,12 @@ class CreateUserUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('UsersTokensRepository')
+    private usersTokensRepository: IUsersTokensRepository,
+
+    @inject('MailProvider')
+    private mailProvider: IMailProvider,
   ) {}
 
   async execute({
@@ -52,6 +63,28 @@ class CreateUserUseCase {
       login,
       phone: parsedPhone,
     });
+
+    const expiresAt = getDateAddedByDays(3);
+    const token = uuidv4();
+
+    await this.usersTokensRepository.create({
+      expiresAt,
+      userId: user.id,
+      token,
+    });
+
+    const filePath = resolveTemplatePath('confirmAccount');
+    const variables = {
+      name,
+      confirmUrl: `${process.env.APP_FRONTEND_URL}/verify/${token}`,
+    };
+
+    await this.mailProvider.sendMail(
+      email,
+      'OpenWMS - Confirmação de conta',
+      variables,
+      filePath,
+    );
 
     return user;
   }

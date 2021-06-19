@@ -2,8 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
 import { AppError } from '@shared/errors/AppError';
-
-import { deleteFile } from '../../../../utils/file';
+import { deleteFile } from '@shared/utils/file';
 
 interface IRequest {
   itemId: string;

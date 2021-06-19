@@ -61,6 +61,36 @@ class FakeStockRepository implements IStocksRepository {
 
     return stock;
   }
+
+  async sumBalance(itemId: string): Promise<number> {
+    const valueOutput: number[] = [];
+    this.stocks.filter(stock => {
+      if (stock.itemId === itemId && stock.type === 'output') {
+        valueOutput.push(stock.value);
+      }
+      return stock;
+    });
+
+    const sumValueOutput = valueOutput.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0,
+    );
+
+    const valueInput: number[] = [];
+    this.stocks.filter(stock => {
+      if (stock.itemId === itemId && stock.type === 'input') {
+        valueInput.push(stock.value);
+      }
+      return stock;
+    });
+
+    const sumValueInput = valueInput.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0,
+    );
+
+    return sumValueOutput - sumValueInput;
+  }
 }
 
 export { FakeStockRepository };

@@ -1,6 +1,9 @@
-import { IInputStockDTO } from '../dtos/IInputStockDTO';
+import { IStockRecordDTO } from '../dtos/IStockRecordDTO';
 import { Stock } from '../infra/typeorm/entities/Stock';
 
 export interface IStocksRepository {
-  input(data: IInputStockDTO): Promise<Stock>;
+  input(data: IStockRecordDTO): Promise<Stock>;
+  output(data: IStockRecordDTO): Promise<Stock>;
+  sumInput(itemId: string): Promise<number>;
+  sumOutput(itemId: string): Promise<number>;
 }

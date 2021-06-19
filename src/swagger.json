@@ -284,6 +284,35 @@
         }
       }
     },
+    "/items/dashboard": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Listar os items com as informações de estoque",
+        "description": "Lista os items com informações do estoque, quantidade e balanco",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ListItemsWithStockInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
+      }
+    },
     "/items/image/{id}": {
       "patch": {
         "tags": [
@@ -728,6 +757,55 @@
         },
         "updatedAt": {
           "type": "string"
+        }
+      }
+    },
+    "ListItemsWithStockInfo": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "userId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "minimumStock": {
+                "type": "number"
+              },
+              "daysToNotifyExpirationDate": {
+                "type": "number"
+              },
+              "image": {
+                "type": "number"
+              },
+              "measureUnity": {
+                "type": "string"
+              },              
+              "createdAt": {
+                "type": "string"
+              },
+              "updatedAt": {
+                "type": "string"
+              }
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "balance": {
+            "type": "number"
+          }
         }
       }
     }

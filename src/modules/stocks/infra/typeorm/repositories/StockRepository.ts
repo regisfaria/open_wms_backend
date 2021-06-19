@@ -75,6 +75,28 @@ class StocksRepository implements IStocksRepository {
 
     return stock;
   }
+
+  async sumBalance(itemId: string): Promise<number> {
+    const stockOutput = await this.repository.find({
+      where: [{ itemId, type: 'output' }],
+    });
+
+    const valueOutput = stockOutput.reduce(
+      (accumulator, stock) => accumulator + stock.value,
+      0,
+    );
+
+    const stockInput = await this.repository.find({
+      where: [{ itemId, type: 'input' }],
+    });
+
+    const valueInput = stockInput.reduce(
+      (accumulator, stock) => accumulator + stock.value,
+      0,
+    );
+
+    return valueOutput - valueInput;
+  }
 }
 
 export { StocksRepository };

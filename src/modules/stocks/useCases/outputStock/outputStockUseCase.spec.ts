@@ -14,10 +14,7 @@ describe('Output stock useCase', () => {
   beforeEach(() => {
     itemRepository = new FakeItemsRepository();
     stockRepository = new FakeStockRepository();
-    calculateStockItemUseCase = new CalculateStockItemUseCase(
-      stockRepository,
-      itemRepository,
-    );
+    calculateStockItemUseCase = new CalculateStockItemUseCase(stockRepository);
     outputStockUseCase = new OutputStockUseCase(
       stockRepository,
       itemRepository,

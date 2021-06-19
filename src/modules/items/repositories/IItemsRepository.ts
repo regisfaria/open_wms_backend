@@ -1,4 +1,5 @@
 import { ICreateItemDTO } from '../dtos/ICreateItemDTO';
+import { IListAvailableItemsDTO } from '../dtos/IListAvailableItemsDTO';
 import { Item } from '../infra/typeorm/entities/Item';
 
 export interface IItemsRepository {
@@ -6,6 +7,6 @@ export interface IItemsRepository {
   update(item: Item): Promise<void>;
   delete(id: string): Promise<void>;
   findById(id: string): Promise<Item>;
-  findAllFromUser(userId: string): Promise<Item[]>;
+  listAvailableAllFromUser(data: IListAvailableItemsDTO): Promise<Item[]>;
   findByNameFromUser(name: string, userId: string): Promise<Item>;
 }

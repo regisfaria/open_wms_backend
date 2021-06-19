@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 import { ICreateItemDTO } from '@modules/items/dtos/ICreateItemDTO';
+import { IListAvailableItemsDTO } from '@modules/items/dtos/IListAvailableItemsDTO';
 import { Item } from '@modules/items/infra/typeorm/entities/Item';
 
 import { IItemsRepository } from '../IItemsRepository';
@@ -42,5 +43,30 @@ export class FakeItemsRepository implements IItemsRepository {
     return this.items.find(
       item => item.name === name && item.userId === userId,
     );
+  }
+
+  async listAvailableAllFromUser({
+    userId,
+    category,
+    measureUnity,
+    name,
+  }: IListAvailableItemsDTO): Promise<Item[]> {
+    const items = this.items.filter(item => {
+      if (
+        (category && item.category === category) ||
+        (measureUnity && item.measureUnity === measureUnity) ||
+        (name && item.name === name && item.userId === userId)
+      ) {
+        return item;
+      }
+
+      if (!category && !measureUnity && !name && item.userId === userId) {
+        return item;
+      }
+
+      return null;
+    });
+
+    return items;
   }
 }

@@ -1,19 +1,31 @@
 import { FakeUsersRepository } from '@modules/users/repositories/fakes/FakeUsersRepository';
+import { FakeUsersTokensRepository } from '@modules/users/repositories/fakes/FakeUsersTokensRepository';
+import { FakeMailProvider } from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import { AppError } from '@shared/errors/AppError';
 
 import { CreateUserUseCase } from '../createUser/CreateUserUseCase';
 import { UpdateUserUseCase } from './UpdateUserUseCase';
 
 let usersRepository: FakeUsersRepository;
+let usersTokensRepository: FakeUsersTokensRepository;
+let mailProvider: FakeMailProvider;
+
 let updateUserUseCase: UpdateUserUseCase;
 let createUserUseCase: CreateUserUseCase;
 
 describe('UpdateUser', () => {
   beforeEach(() => {
     usersRepository = new FakeUsersRepository();
+    usersTokensRepository = new FakeUsersTokensRepository();
+    mailProvider = new FakeMailProvider();
+
+    createUserUseCase = new CreateUserUseCase(
+      usersRepository,
+      usersTokensRepository,
+      mailProvider,
+    );
 
     updateUserUseCase = new UpdateUserUseCase(usersRepository);
-    createUserUseCase = new CreateUserUseCase(usersRepository);
   });
 
   it('should be able to update user data', async () => {

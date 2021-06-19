@@ -1,19 +1,30 @@
+import { FakeUsersTokensRepository } from '@modules/users/repositories/fakes/FakeUsersTokensRepository';
+import { FakeMailProvider } from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import { AppError } from '@shared/errors/AppError';
 
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository';
 import { CreateUserUseCase } from '../createUser/CreateUserUseCase';
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase';
 
-let authenticateUserUseCase: AuthenticateUserUseCase;
+let usersRepository: FakeUsersRepository;
+let usersTokensRepository: FakeUsersTokensRepository;
+let mailProvider: FakeMailProvider;
+
 let createUserUseCase: CreateUserUseCase;
-let fakeUsersRepository: FakeUsersRepository;
+let authenticateUserUseCase: AuthenticateUserUseCase;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    createUserUseCase = new CreateUserUseCase(fakeUsersRepository);
+    usersRepository = new FakeUsersRepository();
+    usersTokensRepository = new FakeUsersTokensRepository();
+    mailProvider = new FakeMailProvider();
 
-    authenticateUserUseCase = new AuthenticateUserUseCase(fakeUsersRepository);
+    createUserUseCase = new CreateUserUseCase(
+      usersRepository,
+      usersTokensRepository,
+      mailProvider,
+    );
+    authenticateUserUseCase = new AuthenticateUserUseCase(usersRepository);
   });
 
   it('should be able to authenticate an user', async () => {

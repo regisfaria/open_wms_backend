@@ -1,16 +1,26 @@
 import { FakeUsersRepository } from '@modules/users/repositories/fakes/FakeUsersRepository';
+import { FakeUsersTokensRepository } from '@modules/users/repositories/fakes/FakeUsersTokensRepository';
+import { FakeMailProvider } from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import { AppError } from '@shared/errors/AppError';
 
 import { CreateUserUseCase } from './CreateUserUseCase';
 
 let usersRepository: FakeUsersRepository;
+let usersTokensRepository: FakeUsersTokensRepository;
+let mailProvider: FakeMailProvider;
 let createUserUseCase: CreateUserUseCase;
 
 describe('CreateUser', () => {
   beforeEach(() => {
     usersRepository = new FakeUsersRepository();
+    usersTokensRepository = new FakeUsersTokensRepository();
+    mailProvider = new FakeMailProvider();
 
-    createUserUseCase = new CreateUserUseCase(usersRepository);
+    createUserUseCase = new CreateUserUseCase(
+      usersRepository,
+      usersTokensRepository,
+      mailProvider,
+    );
   });
 
   it('should be able to create an user', async () => {

@@ -109,6 +109,43 @@
         }
       }
     },
+    "/users/verify/{token}": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Confirm user account",
+        "description": "This endpoint expect it's confirmation token to confirm the user. It will send a new email if the token has expired.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/sessions": {
       "post": {
         "tags": [

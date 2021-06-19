@@ -343,6 +343,88 @@
           }
         }
       }
+    },
+    "/stock/input": {
+      "post": {
+        "tags": [
+          "Stock"
+        ],
+        "summary": "Criando registro de entrada no estoque",
+        "description": "Nessa rota sera criado um registro de armazenagem de um item no estoque",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemId": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "value": {
+                    "type": "number",
+                    "required": true
+                  },
+                  "expirationDate": {
+                    "type": "string",
+                    "required": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "itemId": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "expirationDate": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Item já cadastrado"
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
+      }
     }
   },
   "definitions": {

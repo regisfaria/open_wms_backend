@@ -1,7 +1,7 @@
 interface IInputStockDTO {
   quantity: number;
   value: number;
-  expirationDate?: Date;
+  expirationDate?: string;
   itemId: string;
 }
 

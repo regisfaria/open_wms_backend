@@ -1,14 +1,20 @@
+import { inject, injectable } from 'tsyringe';
+
 import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
 import { IInputStockDTO } from '@modules/stocks/dtos/IInputStockDTO';
 import { Stock } from '@modules/stocks/infra/typeorm/entities/Stock';
 import { IStocksRepository } from '@modules/stocks/repositories/IStocksRepository';
 import { AppError } from '@shared/errors/AppError';
 
+@injectable()
 class InputStockUseCase {
   constructor(
+    @inject('StocksRepository')
     private stockRepository: IStocksRepository,
+    @inject('ItemsRepository')
     private itemsRepository: IItemsRepository,
   ) {}
+
   async execute({
     itemId,
     quantity,
@@ -21,7 +27,7 @@ class InputStockUseCase {
       throw new AppError('Item não existe');
     }
 
-    if (quantity < 1) {
+    if (quantity < 1 || !Number.isInteger(quantity)) {
       throw new AppError('Quantidade a ser inserida invalida');
     }
 

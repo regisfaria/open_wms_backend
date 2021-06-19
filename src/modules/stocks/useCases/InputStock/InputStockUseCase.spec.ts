@@ -45,7 +45,7 @@ describe('Input stock useCase', () => {
       itemId: item.id,
       quantity: 10,
       value: 500,
-      expirationDate: new Date('2021-07-20'),
+      expirationDate: '2021-07-20',
     });
 
     expect(stock).toHaveProperty('id');
@@ -64,7 +64,7 @@ describe('Input stock useCase', () => {
         itemId: item.id,
         quantity: 10,
         value: -500,
-        expirationDate: new Date('2021-07-20'),
+        expirationDate: '2021-07-20',
       });
     }).rejects.toBeInstanceOf(AppError);
   });
@@ -81,7 +81,7 @@ describe('Input stock useCase', () => {
         itemId: item.id,
         quantity: -10,
         value: 500,
-        expirationDate: new Date('2021-07-20'),
+        expirationDate: '2021-07-20',
       });
     }).rejects.toBeInstanceOf(AppError);
   });
@@ -92,7 +92,7 @@ describe('Input stock useCase', () => {
         itemId: '12',
         quantity: -10,
         value: 500,
-        expirationDate: new Date('2021-07-20'),
+        expirationDate: '2021-07-20',
       });
     }).rejects.toBeInstanceOf(AppError);
   });

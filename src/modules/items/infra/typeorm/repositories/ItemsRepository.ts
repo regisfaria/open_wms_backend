@@ -67,7 +67,10 @@ class ItemsRepository implements IItemsRepository {
     const itemsQuery = this.repository
       .createQueryBuilder('items')
       .where('items.active = true')
-      .andWhere('items.userId = :userId', { userId });
+      .andWhere('items.userId = :userId', { userId })
+      .select(
+        'items.id as id, items.userId as userId, items.name as name, items.category, items.minimumStock, items.daysToNotifyExpirationDate,items.image as image, items.active as active, items.createdAt as createdAt, items.updatedAt as updatedAt, items.measureUnity as measureUnity',
+      );
 
     if (name) {
       itemsQuery.andWhere('items.name = :name', { name });

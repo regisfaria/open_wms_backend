@@ -1,7 +1,9 @@
 import { getRepository, Repository } from 'typeorm';
 
 import { ICreateItemDTO } from '@modules/items/dtos/ICreateItemDTO';
+import { IListAvailableItemsDTO } from '@modules/items/dtos/IListAvailableItemsDTO';
 import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
+import { AppError } from '@shared/errors/AppError';
 
 import { Item } from '../entities/Item';
 
@@ -54,6 +56,35 @@ class ItemsRepository implements IItemsRepository {
     const item = await this.repository.findOne({ where: { userId, name } });
 
     return item;
+  }
+
+  async listAvailableAllFromUser({
+    userId,
+    name,
+    category,
+    measureUnity,
+  }: IListAvailableItemsDTO): Promise<Item[]> {
+    const itemsQuery = this.repository
+      .createQueryBuilder('items')
+      .where('items.active = true')
+      .andWhere('items.userId = :userId', { userId });
+
+    if (name) {
+      itemsQuery.andWhere('items.name = :name', { name });
+    }
+    if (category) {
+      itemsQuery.andWhere('items.category = :category', { category });
+    }
+
+    if (measureUnity) {
+      itemsQuery.andWhere('items.measureUnity = :measureUnity', {
+        measureUnity,
+      });
+    }
+
+    const items = await itemsQuery.execute();
+
+    return items;
   }
 }
 

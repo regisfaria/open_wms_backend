@@ -6,6 +6,5 @@ export class FakeMailProvider implements IMailProvider {
 
   public async sendMail(message: ISendMailDTO): Promise<void> {
     this.messages.push(message);
-    console.log(`MESSAGE SENT TO ${message.to}`);
   }
 }

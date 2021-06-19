@@ -343,6 +343,88 @@
           }
         }
       }
+    },
+    "/stock/input": {
+      "post": {
+        "tags": [
+          "Stock"
+        ],
+        "summary": "Criando registro de entrada no estoque",
+        "description": "Nessa rota sera criado um registro de armazenagem de um item no estoque",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/StockRecordPostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/StockRecordPostBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se a quantidade for igual ou menor que zero, se a quantidade a ser removida menos o estoque menor que zero. Caso id do item seja invalido. Caso o valor seja menor que zero"
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
+      }
+    },
+    "/stock/output": {
+      "post": {
+        "tags": [
+          "Stock"
+        ],
+        "summary": "Criando registro de saida no estoque",
+        "description": "Nessa rota sera criado um registro de remoção de um item no estoque",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/StockRecordPostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/StockRecordPostBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se a quantidade ou o valor forem menores que zero ou a quantidade nao for um numero inteiro"
+          },
+          "401": {
+            "description": "Você precisa se autenticar para acessar esse recurso."
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -562,6 +644,53 @@
               }
             }
           }
+        }
+      }
+    },
+    "StockRecordPostBody": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "required": true
+        },
+        "quantity": {
+          "type": "integer",
+          "required": true
+        },
+        "value": {
+          "type": "number",
+          "required": true
+        },
+        "expirationDate": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "StockRecordResponseBody": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "number"
+        },
+        "expirationDate": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
         }
       }
     }

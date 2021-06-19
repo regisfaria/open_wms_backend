@@ -14,7 +14,7 @@ class StocksRepository implements IStocksRepository {
 
   async sumInput(itemId: string): Promise<number> {
     const stock = await this.repository.find({
-      where: [{ itemId }, { type: 'input' }],
+      where: [{ itemId, type: 'input' }],
     });
 
     const quantity = stock.reduce(
@@ -27,7 +27,7 @@ class StocksRepository implements IStocksRepository {
 
   async sumOutput(itemId: string): Promise<number> {
     const stock = await this.repository.find({
-      where: [{ itemId }, { type: 'output' }],
+      where: [{ itemId, type: 'output' }],
     });
 
     const quantity = stock.reduce(

@@ -32,7 +32,7 @@ class OutputStockUseCase {
 
     const quantityInStock = await this.calculateStockItem.execute(itemId);
 
-    if (quantityInStock - quantity < 0) {
+    if (quantityInStock - quantity < 0 || quantity <= 0) {
       throw new AppError('Quantidade a ser removida invalida');
     }
 

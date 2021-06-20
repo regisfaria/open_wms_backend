@@ -17,6 +17,7 @@ export class FakeItemsRepository implements IItemsRepository {
       ...data,
       createdAt: new Date(),
       updatedAt: new Date(),
+      active: true,
     });
 
     this.items.push(item);

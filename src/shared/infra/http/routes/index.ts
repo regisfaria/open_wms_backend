@@ -12,9 +12,10 @@ const router = Router();
 
 router.use('/files', express.static(uploadsFolder));
 router.use('/ping', pingRoutes);
+
 router.use('/users', userRoutes);
 router.use('/sessions', sessionsRoutes);
 router.use('/items', itemRoutes);
-router.use('/stock', stockRoutes);
+router.use('/stocks', stockRoutes);
 
 export { router };

@@ -5,7 +5,7 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IUsersTokensRepository } from '@modules/users/repositories/IUsersTokensRepository';
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { getDateAddedByDays } from '@shared/utils/getDateAddedByDays';
-import { getDifferenceInDaysBetweenDates } from '@shared/utils/getDifferenceInDaysBetweenDates';
+import getDifferenceInDaysBetweenDates from '@shared/utils/getDifferenceInDaysBetweenDates';
 import { resolveTemplatePath } from '@shared/utils/resolveTemplatePath';
 
 interface IResponse {

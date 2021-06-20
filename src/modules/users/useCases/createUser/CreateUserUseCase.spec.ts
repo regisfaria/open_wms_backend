@@ -24,6 +24,8 @@ describe('CreateUser', () => {
   });
 
   it('should be able to create an user', async () => {
+    const sendMail = jest.spyOn(mailProvider, 'sendMail');
+
     const userData = {
       name: 'John Doe',
       password: '123456',
@@ -35,6 +37,7 @@ describe('CreateUser', () => {
     const user = await createUserUseCase.execute(userData);
 
     expect(user).toHaveProperty('id');
+    expect(sendMail).toHaveBeenCalled();
   });
 
   it('should not be able to create an user with an email that is already in use', async () => {

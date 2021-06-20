@@ -11,7 +11,7 @@ class DeleteUserUseCase {
   ) {}
 
   async execute(userId: string): Promise<void> {
-    const user = this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new AppError('Esse usuario nao existe');

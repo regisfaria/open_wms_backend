@@ -35,10 +35,6 @@ export class FakeItemsRepository implements IItemsRepository {
     return this.items.find(item => item.id === id);
   }
 
-  findAllFromUser(userId: string): Promise<Item[]> {
-    throw new Error('Method not implemented.');
-  }
-
   async findByNameFromUser(name: string, userId: string): Promise<Item> {
     return this.items.find(
       item => item.name === name && item.userId === userId,
@@ -68,5 +64,9 @@ export class FakeItemsRepository implements IItemsRepository {
     });
 
     return items;
+  }
+
+  async findAll(): Promise<Item[]> {
+    return this.items;
   }
 }

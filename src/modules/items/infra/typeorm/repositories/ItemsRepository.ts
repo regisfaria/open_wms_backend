@@ -106,6 +106,12 @@ class ItemsRepository implements IItemsRepository {
       return item;
     });
   }
+
+  async findAll(): Promise<Item[]> {
+    const items = await this.repository.find();
+
+    return items;
+  }
 }
 
 export { ItemsRepository };

@@ -6,6 +6,7 @@ interface IStocksRepository {
   output(data: IStockRecordDTO): Promise<Stock>;
   sumTotalQtd(itemId: string): Promise<number>;
   sumBalance(itemId: string): Promise<number>;
+  findAllByItemId(itemId: string): Promise<Stock[]>;
 }
 
 export { IStocksRepository };

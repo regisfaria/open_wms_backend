@@ -33,8 +33,6 @@ class StockDashboardUseCase {
 
       const totalQtd = await this.stocksRepository.sumTotalQtd(item.id);
 
-      item.imageUrl = `${process.env.APP_API_URL}/files/${item.image}`;
-
       response.push({ balance, totalQtd, item });
     }
 

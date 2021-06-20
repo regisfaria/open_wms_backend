@@ -54,7 +54,13 @@ class ItemsRepository implements IItemsRepository {
   async findAllFromUser(userId: string): Promise<Item[]> {
     const allItems = await this.repository.find({ where: { userId } });
 
-    return allItems;
+    return allItems.map(item => {
+      if (item.image) {
+        item.imageUrl = `${process.env.APP_API_URL}/files/${item.image}`;
+      }
+
+      return item;
+    });
   }
 
   async findByNameFromUser(name: string, userId: string): Promise<Item> {
@@ -92,7 +98,13 @@ class ItemsRepository implements IItemsRepository {
 
     const items = await itemsQuery.execute();
 
-    return items;
+    return items.map(item => {
+      if (item.image) {
+        item.imageUrl = `${process.env.APP_API_URL}/files/${item.image}`;
+      }
+
+      return item;
+    });
   }
 }
 

@@ -41,10 +41,6 @@ class ItemsRepository implements IItemsRepository {
     await this.repository.save(item);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
-  }
-
   async findById(id: string): Promise<Item> {
     const item = await this.repository.findOne(id);
 

@@ -9,9 +9,9 @@ class ListStocksController {
 
     const listStocks = container.resolve(ListStocksUseCase);
 
-    const stocks = await listStocks.execute(itemId);
+    const data = await listStocks.execute(itemId);
 
-    return response.status(200).json({ stocks });
+    return response.status(200).json(data);
   }
 }
 

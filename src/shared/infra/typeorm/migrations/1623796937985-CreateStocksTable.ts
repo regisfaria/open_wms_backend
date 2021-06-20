@@ -35,6 +35,11 @@ export class CreateStocksTable1623796937985 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'notified',
+            type: 'boolean',
+            default: false,
+          },
+          {
             name: 'createdAt',
             type: 'timestamp',
             default: 'now()',

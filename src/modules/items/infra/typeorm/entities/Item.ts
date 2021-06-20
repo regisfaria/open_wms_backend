@@ -44,6 +44,9 @@ export class Item {
   @Column('boolean')
   active: boolean;
 
+  @Column('boolean')
+  notified: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 

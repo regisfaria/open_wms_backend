@@ -9,11 +9,20 @@ import { errorHandler } from '@shared/errors/errorHandler';
 import createConnection from '@shared/infra/typeorm';
 
 import swaggerFile from '../../../swagger.json';
+import { cronApp, startCrons } from './cronjobs';
 import { router } from './routes';
 
 import '@shared/container';
 
-createConnection();
+createConnection().then(_connectionEstablished => {
+  if (process.env.NODE_ENV !== 'test') {
+    cronApp.listen(3332, () => {
+      startCrons();
+
+      console.info('🚀 CRONJOBS STARTED AT PORT 3332 🚀');
+    });
+  }
+});
 
 const app = express();
 

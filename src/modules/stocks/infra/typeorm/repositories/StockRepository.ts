@@ -77,6 +77,12 @@ class StocksRepository implements IStocksRepository {
 
     return totalQtd;
   }
+
+  async findAllByItemId(itemId: string): Promise<Stock[]> {
+    const stocks = await this.repository.find({ where: { itemId } });
+
+    return stocks;
+  }
 }
 
 export { StocksRepository };

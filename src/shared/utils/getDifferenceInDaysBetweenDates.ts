@@ -13,7 +13,7 @@ interface IParams {
  *
  * If no "dateToCompare" is given, it will use the current date
  */
-function getDifferenceInDaysBetweenDates({
+export default function getDifferenceInDaysBetweenDates({
   date,
   dateToCompare = new Date(),
 }: IParams): number {
@@ -32,5 +32,3 @@ function getDifferenceInDaysBetweenDates({
 
   return differenceInDays;
 }
-
-export { getDifferenceInDaysBetweenDates };

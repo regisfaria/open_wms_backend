@@ -5,7 +5,7 @@ import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
 import { IStocksRepository } from '@modules/stocks/repositories/IStocksRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
-import { getDifferenceInDaysBetweenDates } from '@shared/utils/getDifferenceInDaysBetweenDates';
+import getDifferenceInDaysBetweenDates from '@shared/utils/getDifferenceInDaysBetweenDates';
 import { resolveTemplatePath } from '@shared/utils/resolveTemplatePath';
 
 @injectable()

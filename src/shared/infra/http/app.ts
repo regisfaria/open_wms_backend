@@ -15,11 +15,13 @@ import { router } from './routes';
 import '@shared/container';
 
 createConnection().then(_connectionEstablished => {
-  cronApp.listen(3332, () => {
-    startCrons();
+  if (process.env.NODE_ENV !== 'test') {
+    cronApp.listen(3332, () => {
+      startCrons();
 
-    console.info('🚀 CRONJOBS STARTED AT PORT 3332 🚀');
-  });
+      console.info('🚀 CRONJOBS STARTED AT PORT 3332 🚀');
+    });
+  }
 });
 
 const app = express();

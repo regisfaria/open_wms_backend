@@ -55,6 +55,26 @@
             "description": "Esse 'login/email/número de telefone' já está em uso"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete logged-in user account.",
+        "description": "In this endpoint you can delete an user. You must do it after authentication, where it will know which user is to be deleted(based on userId inside the token).",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Nenhum usuario encontrado."
+          }
+        }
       }
     },
     "/users/{id}": {

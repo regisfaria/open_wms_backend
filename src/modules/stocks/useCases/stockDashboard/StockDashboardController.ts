@@ -11,7 +11,7 @@ class StockDashboardController {
 
     const dashboardData = await dashboardStock.execute(id);
 
-    return response.status(200).json(dashboardData);
+    return response.status(200).json({ dashboardData });
   }
 }
 

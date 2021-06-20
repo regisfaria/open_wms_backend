@@ -80,7 +80,7 @@ class ExpirationDateCronjob {
   }
 
   runJob(): void {
-    console.info('[EXPIRATION DATE] Cronjob running...');
+    console.info('🗓 [EXPIRATION DATE] Cronjob scheduled ⏰');
 
     cron.schedule(`0 */${process.env.CRONJOB_MINUTES} * * * *`, async () => {
       await this.execute();

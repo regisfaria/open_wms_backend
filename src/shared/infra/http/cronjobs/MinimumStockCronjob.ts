@@ -67,7 +67,7 @@ class MinimumStockCronjob {
   }
 
   runJob(): void {
-    console.info('[MINIMUM STOCK] Cronjob running...');
+    console.info('🗓 [MINIMUM STOCK] Cronjob scheduled ⏰');
 
     cron.schedule(`0 */${process.env.CRONJOB_MINUTES} * * * *`, async () => {
       await this.execute();

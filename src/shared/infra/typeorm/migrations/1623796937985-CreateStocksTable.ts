@@ -51,6 +51,8 @@ export class CreateStocksTable1623796937985 implements MigrationInterface {
             referencedTableName: 'items',
             referencedColumnNames: ['id'],
             columnNames: ['itemId'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

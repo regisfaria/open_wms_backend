@@ -30,10 +30,11 @@ describe('List stock useCase', () => {
       value: 500,
     });
 
-    const stock = await listStockUseCase.execute(item.id);
+    const response = await listStockUseCase.execute(item.id);
 
-    expect(stock[0]).toHaveProperty('id');
-    expect(stock.length).toEqual(1);
+    expect(response.stocks[0]).toHaveProperty('id');
+    expect(response).toHaveProperty('item');
+    expect(response.stocks.length).toEqual(1);
   });
 
   it('should be able to list stock of items', async () => {
@@ -44,9 +45,9 @@ describe('List stock useCase', () => {
       measureUnity: 'QTD',
     });
 
-    const stock = await listStockUseCase.execute(item.id);
+    const response = await listStockUseCase.execute(item.id);
 
-    expect(stock.length).toEqual(0);
+    expect(response.stocks.length).toEqual(0);
   });
 
   it('should not be able to list stock of invalid item', async () => {

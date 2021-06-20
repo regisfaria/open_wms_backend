@@ -66,12 +66,19 @@ class ExpirationDateCronjob {
               date: stock.expirationDate,
             });
 
-            if (daysToExpiration <= item.daysToNotifyExpirationDate) {
+            if (
+              daysToExpiration <= item.daysToNotifyExpirationDate &&
+              !stock.notified
+            ) {
               await this.notifyUser(
                 item.userId,
                 item.name,
                 stock.expirationDate.toLocaleDateString('pt-br'),
               );
+
+              stock.notified = true;
+
+              await this.stocksRepository.update(stock);
             }
           }
         }

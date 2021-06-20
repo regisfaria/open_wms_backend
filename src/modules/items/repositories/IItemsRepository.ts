@@ -7,7 +7,7 @@ export interface IItemsRepository {
   update(item: Item): Promise<void>;
   delete(id: string): Promise<void>;
   findById(id: string): Promise<Item>;
-  findByNameFromUser(name: string, userId: string): Promise<Item>;
+  findByNameAndUserId(name: string, userId: string): Promise<Item>;
   findAll(): Promise<Item[]>;
-  listAvailableAllFromUser(data: IListAvailableItemsDTO): Promise<Item[]>;
+  findAllAvailableByUserId(data: IListAvailableItemsDTO): Promise<Item[]>;
 }

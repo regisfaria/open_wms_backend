@@ -1,8 +1,9 @@
 interface IStockRecordDTO {
+  itemId: string;
   quantity: number;
+  type: string;
   value: number;
   expirationDate?: string;
-  itemId: string;
 }
 
 export { IStockRecordDTO };

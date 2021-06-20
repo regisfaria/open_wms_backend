@@ -36,9 +36,9 @@ class CreateStockUseCase {
       throw new AppError('Tipo de estoque desconhecido.');
     }
 
-    const itemExist = await this.itemsRepository.findById(itemId);
+    const item = await this.itemsRepository.findById(itemId);
 
-    if (!itemExist) {
+    if (!item) {
       throw new AppError('Item não existe');
     }
 
@@ -50,20 +50,19 @@ class CreateStockUseCase {
       throw new AppError('Valor do estoque invalido');
     }
 
-    const stock =
-      type === 'input'
-        ? await this.stockRepository.input({
-            itemId,
-            quantity,
-            value,
-            expirationDate,
-          })
-        : await this.stockRepository.output({
-            itemId,
-            quantity,
-            value,
-            expirationDate,
-          });
+    const stock = await this.stockRepository.create({
+      type,
+      itemId,
+      quantity,
+      value,
+      expirationDate,
+    });
+
+    if (item.notified) {
+      item.notified = false;
+
+      await this.itemsRepository.update(item);
+    }
 
     return stock;
   }

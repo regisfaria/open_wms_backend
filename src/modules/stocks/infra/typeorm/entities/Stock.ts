@@ -38,6 +38,9 @@ export class Stock {
   @Column('timestamp')
   expirationDate?: Date;
 
+  @Column('boolean')
+  notified: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 

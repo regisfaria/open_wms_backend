@@ -18,7 +18,7 @@ class CreateStockController {
       type,
     });
 
-    return response.status(201).json(stock);
+    return response.status(201).json({ stock });
   }
 }
 

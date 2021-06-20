@@ -59,8 +59,12 @@ class MinimumStockCronjob {
       if (item.minimumStock >= 0) {
         const totalQtd = await this.stocksRepository.sumTotalQtd(item.id);
 
-        if (totalQtd <= item.minimumStock) {
+        if (totalQtd <= item.minimumStock && !item.notified) {
           await this.notifyUser(item.userId, item.name, totalQtd);
+
+          item.notified = true;
+
+          await this.itemsRepository.update(item);
         }
       }
     });

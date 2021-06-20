@@ -46,6 +46,11 @@ export class CreateItemsTable1623796220716 implements MigrationInterface {
             default: true,
           },
           {
+            name: 'notified',
+            type: 'boolean',
+            default: false,
+          },
+          {
             name: 'createdAt',
             type: 'timestamp',
             default: 'now()',

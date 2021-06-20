@@ -20,8 +20,10 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async update(user: User): Promise<void> {
+  async update(user: User): Promise<User> {
     await this.repository.save(user);
+
+    return user;
   }
 
   async delete(id: string): Promise<void> {

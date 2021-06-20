@@ -1,96 +1,75 @@
-// import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
-// import { IStockRecordDTO } from '@modules/stocks/dtos/IStockRecordDTO';
-// import { Stock } from '@modules/stocks/infra/typeorm/entities/Stock';
+import { IStockRecordDTO } from '@modules/stocks/dtos/IStockRecordDTO';
+import { Stock } from '@modules/stocks/infra/typeorm/entities/Stock';
 
-// import { IStocksRepository } from '../IStocksRepository';
+import { IStocksRepository } from '../IStocksRepository';
 
-// class FakeStockRepository implements IStocksRepository {
-//   private stocks: Stock[] = [];
+class FakeStockRepository implements IStocksRepository {
+  private stocks: Stock[] = [];
 
-//   async sumInput(itemId: string): Promise<number> {
-//     const allQuantity: number[] = [];
-//     this.stocks.filter(stock => {
-//       if (stock.itemId === itemId && stock.type === 'input') {
-//         allQuantity.push(stock.quantity);
-//       }
-//       return stock;
-//     });
+  async create(data: IStockRecordDTO): Promise<Stock> {
+    const stock = new Stock();
 
-//     const quantity = allQuantity.reduce(
-//       (accumulator, currentValue) => accumulator + currentValue,
-//       0,
-//     );
+    Object.assign(stock, {
+      id: uuid(),
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
-//     return quantity;
-//   }
+    this.stocks.push(stock);
 
-//   async sumOutput(itemId: string): Promise<number> {
-//     const allQuantity: number[] = [];
-//     this.stocks.filter(stock => {
-//       if (stock.itemId === itemId && stock.type === 'output') {
-//         allQuantity.push(stock.quantity);
-//       }
-//       return stock;
-//     });
+    return stock;
+  }
 
-//     const quantity = allQuantity.reduce(
-//       (accumulator, currentValue) => accumulator + currentValue,
-//       0,
-//     );
+  async update(stock: Stock): Promise<Stock> {
+    const stockIndex = this.stocks.findIndex(
+      stockToFind => stockToFind.id === stock.id,
+    );
 
-//     return quantity;
-//   }
+    this.stocks[stockIndex] = stock;
 
-//   async input(data: IStockRecordDTO): Promise<Stock> {
-//     const stock = new Stock();
+    return stock;
+  }
 
-//     Object.assign(stock, { id: uuid(), ...data, type: 'input' });
+  async findAllByItemId(itemId: string): Promise<Stock[]> {
+    const stocks = this.stocks.filter(stock => stock.itemId === itemId);
 
-//     this.stocks.push(stock);
+    return stocks;
+  }
 
-//     return stock;
-//   }
+  async sumTotalQtd(itemId: string): Promise<number> {
+    const totalQtd = this.stocks.reduce((acc, stock) => {
+      if (stock.itemId === itemId) {
+        if (stock.type === 'input') {
+          return acc + stock.quantity;
+        }
 
-//   async output(data: IStockRecordDTO): Promise<Stock> {
-//     const stock = new Stock();
+        return acc - stock.quantity;
+      }
 
-//     Object.assign(stock, { id: uuid(), ...data, type: 'output' });
+      return acc;
+    }, 0);
 
-//     this.stocks.push(stock);
+    return totalQtd;
+  }
 
-//     return stock;
-//   }
+  async sumBalance(itemId: string): Promise<number> {
+    const balance = this.stocks.reduce((acc, stock) => {
+      if (stock.itemId === itemId) {
+        if (stock.type === 'input') {
+          return acc + stock.value;
+        }
 
-//   async sumBalance(itemId: string): Promise<number> {
-//     const valueOutput: number[] = [];
-//     this.stocks.filter(stock => {
-//       if (stock.itemId === itemId && stock.type === 'output') {
-//         valueOutput.push(stock.value);
-//       }
-//       return stock;
-//     });
+        return acc - stock.value;
+      }
 
-//     const sumValueOutput = valueOutput.reduce(
-//       (accumulator, currentValue) => accumulator + currentValue,
-//       0,
-//     );
+      return acc;
+    }, 0);
 
-//     const valueInput: number[] = [];
-//     this.stocks.filter(stock => {
-//       if (stock.itemId === itemId && stock.type === 'input') {
-//         valueInput.push(stock.value);
-//       }
-//       return stock;
-//     });
+    return balance;
+  }
+}
 
-//     const sumValueInput = valueInput.reduce(
-//       (accumulator, currentValue) => accumulator + currentValue,
-//       0,
-//     );
-
-//     return sumValueOutput - sumValueInput;
-//   }
-// }
-
-// export { FakeStockRepository };
+export { FakeStockRepository };

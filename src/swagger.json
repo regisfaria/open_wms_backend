@@ -231,8 +231,8 @@
         "tags": [
           "Items"
         ],
-        "summary": "Listar todos os items ativos do usuário",
-        "description": "Nessa rota é feito a listagem dos items do usuário que estão ativo, podendo ser aplicado filtros de unidade de medida, categoria e nome pelo paramento de query",
+        "summary": "List all active user Items.",
+        "description": "In this route you can list all active user items. You can also apply filters(measureUnity, category, name).",
         "security": [
           {
             "bearerAuth": []
@@ -242,7 +242,7 @@
           {
             "name": "name",
             "in": "query",
-            "description": "Nome do item",
+            "description": "Item Name",
             "required": false,
             "schema": {
               "type": "string"
@@ -251,7 +251,7 @@
           {
             "name": "category",
             "in": "query",
-            "description": "Categoria do item",
+            "description": "Item Category",
             "required": false,
             "schema": {
               "type": "string"
@@ -260,7 +260,7 @@
           {
             "name": "measureUnity",
             "in": "query",
-            "description": "Unidade de medida do item",
+            "description": "Item Measure Unit",
             "required": false,
             "schema": {
               "type": "string"
@@ -274,35 +274,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/ListItemsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Você precisa se autenticar para acessar esse recurso."
-          }
-        }
-      }
-    },
-    "/items/dashboard": {
-      "get": {
-        "tags": [
-          "Items"
-        ],
-        "summary": "Listar os items com as informações de estoque",
-        "description": "Lista os items com informações do estoque, quantidade e balanco",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/ListItemsWithStockInfo"
                 }
               }
             }
@@ -410,13 +381,24 @@
         }
       }
     },
-    "/stock/input": {
+    "/stocks/{type}": {
       "post": {
         "tags": [
-          "Stock"
+          "Stocks"
         ],
-        "summary": "Criando registro de entrada no estoque",
-        "description": "Nessa rota sera criado um registro de armazenagem de um item no estoque",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "description": "'input' || 'output'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Create a new Stock",
+        "description": "In this route you can create a new stock. expirationDate is expected as a 'YYYY-MM-DD' string.",
         "security": [
           {
             "bearerAuth": []
@@ -426,7 +408,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/StockRecordPostBody"
+                "$ref": "#/definitions/StockRecordBody"
               }
             }
           }
@@ -437,7 +419,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/StockRecordPostBody"
+                  "$ref": "#/definitions/StockRecordResponse"
                 }
               }
             }
@@ -451,40 +433,31 @@
         }
       }
     },
-    "/stock/output": {
+    "/stocks/dashboard": {
       "post": {
         "tags": [
-          "Stock"
+          "Stocks"
         ],
-        "summary": "Criando registro de saida no estoque",
-        "description": "Nessa rota sera criado um registro de remoção de um item no estoque",
+        "summary": "List stock dashboard data",
+        "description": "Here you will list all stocks and useful information about it.",
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/StockRecordPostBody"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/StockRecordPostBody"
+                  "$ref": "#/definitions/StockDashboardResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Se a quantidade ou o valor forem menores que zero ou a quantidade nao for um numero inteiro"
+            "description": "Se a quantidade for igual ou menor que zero, se a quantidade a ser removida menos o estoque menor que zero. Caso id do item seja invalido. Caso o valor seja menor que zero"
           },
           "401": {
             "description": "Você precisa se autenticar para acessar esse recurso."
@@ -713,7 +686,7 @@
         }
       }
     },
-    "StockRecordPostBody": {
+    "StockRecordBody": {
       "type": "object",
       "properties": {
         "itemId": {
@@ -721,7 +694,7 @@
           "required": true
         },
         "quantity": {
-          "type": "integer",
+          "type": "number",
           "required": true
         },
         "value": {
@@ -734,14 +707,14 @@
         }
       }
     },
-    "StockRecordResponseBody": {
+    "StockRecordResponse": {
       "type": "object",
       "properties": {
         "itemId": {
           "type": "string"
         },
         "quantity": {
-          "type": "integer"
+          "type": "number"
         },
         "value": {
           "type": "number"
@@ -760,7 +733,7 @@
         }
       }
     },
-    "ListItemsWithStockInfo": {
+    "StockDashboardResponse": {
       "type": "array",
       "items": {
         "type": "object",
@@ -789,6 +762,9 @@
               "image": {
                 "type": "number"
               },
+              "imageUrl": {
+                "type": "number"
+              },
               "measureUnity": {
                 "type": "string"
               },              
@@ -800,7 +776,7 @@
               }
             }
           },
-          "total": {
+          "totalQtd": {
             "type": "number"
           },
           "balance": {

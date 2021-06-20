@@ -25,10 +25,16 @@ describe('UpdateUser', () => {
       mailProvider,
     );
 
-    updateUserUseCase = new UpdateUserUseCase(usersRepository);
+    updateUserUseCase = new UpdateUserUseCase(
+      usersRepository,
+      usersTokensRepository,
+      mailProvider,
+    );
   });
 
   it('should be able to update user data', async () => {
+    const sendMail = jest.spyOn(mailProvider, 'sendMail');
+
     const userData = {
       name: 'John Doe',
       password: '123456',
@@ -52,6 +58,8 @@ describe('UpdateUser', () => {
     expect(updatedUser.name).toBe('Regis Faria');
     expect(updatedUser.email).toBe('regis@email.com');
     expect(updatedUser.login).toBe('regisfaria');
+    expect(updatedUser.verified).toBe(false);
+    expect(sendMail).toHaveBeenCalled();
   });
 
   it('should be able to update only one user information', async () => {

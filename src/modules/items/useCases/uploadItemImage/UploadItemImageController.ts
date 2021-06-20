@@ -15,7 +15,7 @@ class UploadItemImageController {
       imageName: filename,
     });
 
-    return response.sendStatus(201);
+    return response.sendStatus(200);
   }
 }
 

@@ -1,236 +1,228 @@
-// import request from 'supertest';
-// import { Connection } from 'typeorm';
+import request from 'supertest';
+import { Connection } from 'typeorm';
 
-// import { app } from '@shared/infra/http/app';
-// import createConnection from '@shared/infra/typeorm';
+import { User } from '@modules/users/infra/typeorm/entities/User';
+import { app } from '@shared/infra/http/app';
+import createConnection from '@shared/infra/typeorm';
 
-// let connection: Connection;
-// describe('UpdateUserController', () => {
-//   beforeAll(async () => {
-//     connection = await createConnection('localhost');
-//     await connection.runMigrations();
-//   });
+let connection: Connection;
+let user: User;
+describe('UpdateUserController', () => {
+  beforeAll(async () => {
+    connection = await createConnection('localhost');
+    await connection.runMigrations();
 
-//   afterAll(async () => {
-//     await connection.dropDatabase();
-//     await connection.close();
-//   });
+    const userResponse = await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe@email.com',
+      password: '123456',
+      phone: '(21)98765-1234',
+      login: 'johndoe',
+    });
 
-//   it('should be able to update an user', async () => {
-//     const userResponse = await request(app).post('/users').send({
-//       name: 'John Doe',
-//       email: 'johndoe@email.com',
-//       password: '123456',
-//       phone: '(21)98765-1234',
-//       login: 'johndoe',
-//     });
+    user = userResponse.body.user;
+  });
 
-//     const { id } = await userResponse.body.user;
+  afterAll(async () => {
+    await connection.dropDatabase();
+    await connection.close();
+  });
 
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+  it('should be able to update an user', async () => {
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'johndoe', password: '123456' });
 
-//     const { token } = authResponse.body;
+    const { token } = authResponse.body;
 
-//     const response = await request(app)
-//       .put(`/users/${id}`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({
-//         name: 'Regis Faria',
-//         currentPassword: '123456',
-//         newPassword: '654321',
-//         email: 'regis@email.com',
-//         login: 'regisfaria',
-//         phone: '(21)98832-0192',
-//       });
+    const response = await request(app)
+      .put(`/users/${user.id}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Regis Faria',
+        currentPassword: '123456',
+        newPassword: '654321',
+        email: 'regis@email.com',
+        login: 'regisfaria',
+        phone: '(21)98832-0192',
+      });
 
-//     expect(response.status).toBe(200);
-//     expect(response.body.user.name).toBe('Regis Faria');
-//   });
+    expect(response.status).toBe(200);
+    expect(response.body.user.name).toBe('Regis Faria');
+  });
 
-//   it('should not be able to update an user without any new values', async () => {
-//     const userResponse = await request(app).post('/users').send({
-//       name: 'John Doe',
-//       email: 'johndoe@email.com',
-//       password: '123456',
-//       phone: '(21)98765-1234',
-//       login: 'johndoe',
-//     });
+  it('should not be able to update an user without any new values', async () => {
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'regisfaria', password: '654321' });
 
-//     const { id } = userResponse.body.user;
+    const { token } = authResponse.body;
 
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+    const response = await request(app)
+      .put(`/users/${user.id}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({});
 
-//     const { token } = authResponse.body;
+    expect(response.status).toBe(400);
+  });
 
-//     const response = await request(app)
-//       .put(`/users/${id}`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({});
+  it('should not be able to update a non-existing user', async () => {
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'regisfaria', password: '654321' });
 
-//     expect(response.status).toBe(400);
-//   });
+    const { token } = authResponse.body;
 
-//   it('should not be able to update a non-existing user', async () => {
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+    const response = await request(app)
+      .put(`/users/a1fa433d-fcc9-4695-a24c-c760f4c368ac`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Regis Faria',
+        currentPassword: '123456',
+        newPassword: '654321',
+        email: 'johndoe@email.com',
+        login: 'regisfaria',
+        phone: '(21)98832-0192',
+      });
 
-//     const { token } = authResponse.body;
+    expect(response.status).toBe(400);
+  });
 
-//     const response = await request(app)
-//       .put(`/users/a1fa433d-fcc9-4695-a24c-c760f4c368ac`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({
-//         name: 'Regis Faria',
-//         currentPassword: '123456',
-//         newPassword: '654321',
-//         email: 'johndoe@email.com',
-//         login: 'regisfaria',
-//         phone: '(21)98832-0192',
-//       });
+  it('should not be able to update an user with an email that is already in use', async () => {
+    const userResponse = await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe2@email.com',
+      password: '123456',
+      phone: '(21)12-1234',
+      login: 'johndoe2',
+    });
 
-//     expect(response.status).toBe(400);
-//   });
+    const { id } = userResponse.body.user;
 
-//   it('should not be able to update an user with an email that is already in use', async () => {
-//     const userResponse = await request(app).post('/users').send({
-//       name: 'John Doe',
-//       email: 'johndoe2@email.com',
-//       password: '123456',
-//       phone: '(21)12765-1234',
-//       login: 'johndoe2',
-//     });
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'regisfaria', password: '654321' });
 
-//     const { id } = userResponse.body.user;
+    const { token } = authResponse.body;
 
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+    const response = await request(app)
+      .put(`/users/${id}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Regis Faria',
+        currentPassword: '123456',
+        newPassword: '654321',
+        email: 'johndoe2@email.com',
+        login: 'regisfaria',
+        phone: '(21)98832-0192',
+      });
 
-//     const { token } = authResponse.body;
+    expect(response.status).toBe(400);
+  });
 
-//     const response = await request(app)
-//       .put(`/users/${id}`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({
-//         name: 'Regis Faria',
-//         currentPassword: '123456',
-//         newPassword: '654321',
-//         email: 'johndoe2@email.com',
-//         login: 'regisfaria',
-//         phone: '(21)98832-0192',
-//       });
+  it('should not be able to update an user with a login that is already in use', async () => {
+    const userResponse = await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe3@email.com',
+      password: '123456',
+      phone: '(21)123465-1234',
+      login: 'johndoe3',
+    });
 
-//     expect(response.status).toBe(400);
-//   });
+    const { id } = userResponse.body.user;
 
-//   it('should not be able to update an user with a login that is already in use', async () => {
-//     const userResponse = await request(app).post('/users').send({
-//       name: 'John Doe',
-//       email: 'johndoe3@email.com',
-//       password: '123456',
-//       phone: '(21)123465-1234',
-//       login: 'johndoe3',
-//     });
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'regisfaria', password: '654321' });
 
-//     const { id } = userResponse.body.user;
+    const { token } = authResponse.body;
 
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+    const response = await request(app)
+      .put(`/users/${id}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Regis Faria',
+        currentPassword: '123456',
+        newPassword: '654321',
+        email: 'johndoe3@email.com',
+        login: 'johndoe3',
+        phone: '(21)981232-0192',
+      });
 
-//     const { token } = authResponse.body;
+    expect(response.status).toBe(400);
+  });
 
-//     const response = await request(app)
-//       .put(`/users/${id}`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({
-//         name: 'Regis Faria',
-//         currentPassword: '123456',
-//         newPassword: '654321',
-//         email: 'johndoe3@email.com',
-//         login: 'johndoe3',
-//         phone: '(21)981232-0192',
-//       });
+  it('should not be able to update an user with a phone that is already in use', async () => {
+    const userResponse = await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe4@email.com',
+      password: '123456',
+      phone: '(21)12345-234',
+      login: 'johndoe4',
+    });
 
-//     expect(response.status).toBe(400);
-//   });
+    const { id } = userResponse.body.user;
 
-//   it('should not be able to update an user with a phone that is already in use', async () => {
-//     const userResponse = await request(app).post('/users').send({
-//       name: 'John Doe',
-//       email: 'johndoe4@email.com',
-//       password: '123456',
-//       phone: '(21)12345-234',
-//       login: 'johndoe4',
-//     });
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'regisfaria', password: '654321' });
 
-//     const { id } = userResponse.body.user;
+    const { token } = authResponse.body;
 
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+    const response = await request(app)
+      .put(`/users/${id}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Regis Faria',
+        currentPassword: '123456',
+        newPassword: '654321',
+        email: 'regisss@email.com',
+        login: 'gisreariafa',
+        phone: '(21)12345-234',
+      });
 
-//     const { token } = authResponse.body;
+    expect(response.status).toBe(400);
+  });
 
-//     const response = await request(app)
-//       .put(`/users/${id}`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({
-//         name: 'Regis Faria',
-//         currentPassword: '123456',
-//         newPassword: '654321',
-//         email: 'regisss@email.com',
-//         login: 'gisreariafa',
-//         phone: '(21)12345-234',
-//       });
+  it('should not be able to update an user with a wrong currentPassword', async () => {
+    const userResponse = await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe5@email.com',
+      password: '123456',
+      phone: '(211)98765-1234',
+      login: 'johndoe5',
+    });
 
-//     expect(response.status).toBe(400);
-//   });
+    const { id } = userResponse.body.user;
 
-//   it('should not be able to update an user with a wrong currentPassword', async () => {
-//     const userResponse = await request(app).post('/users').send({
-//       name: 'John Doe',
-//       email: 'johndoe5@email.com',
-//       password: '123456',
-//       phone: '(211)98765-1234',
-//       login: 'johndoe5',
-//     });
+    const authResponse = await request(app)
+      .post('/sessions')
+      .send({ login: 'regisfaria', password: '654321' });
 
-//     const { id } = userResponse.body.user;
+    const { token } = authResponse.body;
 
-//     const authResponse = await request(app)
-//       .post('/sessions')
-//       .send({ login: 'johndoe', password: '123456' });
+    const response = await request(app)
+      .put(`/users/${id}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        currentPassword: '1256',
+        newPassword: '654321',
+      });
 
-//     const { token } = authResponse.body;
-
-//     const response = await request(app)
-//       .put(`/users/${id}`)
-//       .set({
-//         Authorization: `Bearer ${token}`,
-//       })
-//       .send({
-//         currentPassword: '1256',
-//         newPassword: '654321',
-//       });
-
-//     expect(response.status).toBe(400);
-//   });
-// });
+    expect(response.status).toBe(400);
+  });
+});

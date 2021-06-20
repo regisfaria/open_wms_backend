@@ -9,7 +9,7 @@ import { errorHandler } from '@shared/errors/errorHandler';
 import createConnection from '@shared/infra/typeorm';
 
 import swaggerFile from '../../../swagger.json';
-import { cronApp, startCrons } from './cronjobs';
+import { cronApp, startCrons } from '../cronjobs';
 import { router } from './routes';
 
 import '@shared/container';

@@ -3,7 +3,6 @@ import multer from 'multer';
 
 import { CreateItemController } from '@modules/items/useCases/createItem/CreateItemController';
 import { ListAvailableItemController } from '@modules/items/useCases/listAvailableItem/ListAvailableItemController';
-import { ListItemWithStockInfoController } from '@modules/items/useCases/listItemWithStockInfo/ListItemWithStockInfoController';
 import { UpdateItemController } from '@modules/items/useCases/updateItem/UpdateItemController';
 import { UploadItemImageController } from '@modules/items/useCases/uploadItemImage/UploadItemController';
 
@@ -16,7 +15,6 @@ const createItemController = new CreateItemController();
 const uploadItemImageController = new UploadItemImageController();
 const updateItemController = new UpdateItemController();
 const listAvailableItemController = new ListAvailableItemController();
-const listItemWithStockInfoController = new ListItemWithStockInfoController();
 
 const upload = multer(multerUploadConfig());
 
@@ -33,7 +31,5 @@ itemRoutes.patch(
 itemRoutes.put('/:id', updateItemController.handle);
 
 itemRoutes.get('/', listAvailableItemController.handle);
-
-itemRoutes.get('/dashboard', listItemWithStockInfoController.handle);
 
 export { itemRoutes };

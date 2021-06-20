@@ -434,7 +434,7 @@
       }
     },
     "/stocks/dashboard": {
-      "post": {
+      "get": {
         "tags": [
           "Stocks"
         ],

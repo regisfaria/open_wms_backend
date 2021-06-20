@@ -3,7 +3,6 @@ import { getRepository, Repository } from 'typeorm';
 import { ICreateItemDTO } from '@modules/items/dtos/ICreateItemDTO';
 import { IListAvailableItemsDTO } from '@modules/items/dtos/IListAvailableItemsDTO';
 import { IItemsRepository } from '@modules/items/repositories/IItemsRepository';
-import { AppError } from '@shared/errors/AppError';
 
 import { Item } from '../entities/Item';
 
@@ -41,17 +40,29 @@ class ItemsRepository implements IItemsRepository {
   async update(item: Item): Promise<void> {
     await this.repository.save(item);
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
+
   async findById(id: string): Promise<Item> {
     const item = await this.repository.findOne(id);
 
     return item;
   }
-  findAllFromUser(userId: string): Promise<Item[]> {
-    throw new Error('Method not implemented.');
+
+  async findAllFromUser(userId: string): Promise<Item[]> {
+    const allItems = await this.repository.find({ where: { userId } });
+
+    return allItems.map(item => {
+      if (item.image) {
+        item.imageUrl = `${process.env.APP_API_URL}/files/${item.image}`;
+      }
+
+      return item;
+    });
   }
+
   async findByNameFromUser(name: string, userId: string): Promise<Item> {
     const item = await this.repository.findOne({ where: { userId, name } });
 
@@ -87,7 +98,13 @@ class ItemsRepository implements IItemsRepository {
 
     const items = await itemsQuery.execute();
 
-    return items;
+    return items.map(item => {
+      if (item.image) {
+        item.imageUrl = `${process.env.APP_API_URL}/files/${item.image}`;
+      }
+
+      return item;
+    });
   }
 }
 

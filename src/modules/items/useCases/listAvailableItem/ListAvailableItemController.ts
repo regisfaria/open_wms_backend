@@ -1,3 +1,4 @@
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -20,7 +21,7 @@ class ListAvailableItemController {
       userId,
     });
 
-    return response.json({ items }).status(200);
+    return response.status(200).json(classToClass({ items }));
   }
 }
 

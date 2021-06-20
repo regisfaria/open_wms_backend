@@ -40,6 +40,7 @@ class UpdateItemUseCase {
     if (!item) {
       throw new AppError('Nenhum item encontrado com o ID fornecido.');
     }
+
     if (name) {
       const nameAlreadyExist = await this.itemsRepository.findByNameFromUser(
         name,
@@ -56,12 +57,13 @@ class UpdateItemUseCase {
     if (category) {
       item.category = category;
     }
+
     if (daysToNotifyExpirationDate) {
-      if (daysToNotifyExpirationDate >= 0) {
-        item.daysToNotifyExpirationDate = daysToNotifyExpirationDate;
-      } else {
+      if (daysToNotifyExpirationDate < 0) {
         throw new AppError('Data para notificar sobre a validade invalido.');
       }
+
+      item.daysToNotifyExpirationDate = daysToNotifyExpirationDate;
     }
 
     if (measureUnity) {
@@ -69,11 +71,11 @@ class UpdateItemUseCase {
     }
 
     if (minimumStock) {
-      if (minimumStock >= 0) {
-        item.minimumStock = minimumStock;
-      } else {
+      if (minimumStock < 0) {
         throw new AppError('Estoque minimo invalido.');
       }
+
+      item.minimumStock = minimumStock;
     }
 
     await this.itemsRepository.update(item);

@@ -1,14 +1,19 @@
 import { Router } from 'express';
 
-import { InputStockController } from '@modules/stocks/useCases/InputStock/InputStockController';
-import { OutputStockController } from '@modules/stocks/useCases/outputStock/outputStockController';
+import { CreateStockController } from '@modules/stocks/useCases/createStock/CreateStockController';
+import { StockDashboardController } from '@modules/stocks/useCases/stockDashboard/StockDashboardController';
+
+import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
 const stockRoutes = Router();
 
-const inputStockController = new InputStockController();
-const outputStockController = new OutputStockController();
+const createStockController = new CreateStockController();
+const dashboardStockController = new StockDashboardController();
 
-stockRoutes.post('/input', inputStockController.handle);
-stockRoutes.post('/output', outputStockController.handle);
+stockRoutes.use(ensureAuthenticated);
+
+stockRoutes.post('/:type', createStockController.handle);
+
+stockRoutes.get('/dashboard', dashboardStockController.handle);
 
 export { stockRoutes };

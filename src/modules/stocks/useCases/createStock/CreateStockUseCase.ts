@@ -50,20 +50,13 @@ class CreateStockUseCase {
       throw new AppError('Valor do estoque invalido');
     }
 
-    const stock =
-      type === 'input'
-        ? await this.stockRepository.input({
-            itemId,
-            quantity,
-            value,
-            expirationDate,
-          })
-        : await this.stockRepository.output({
-            itemId,
-            quantity,
-            value,
-            expirationDate,
-          });
+    const stock = await this.stockRepository.create({
+      type,
+      itemId,
+      quantity,
+      value,
+      expirationDate,
+    });
 
     return stock;
   }

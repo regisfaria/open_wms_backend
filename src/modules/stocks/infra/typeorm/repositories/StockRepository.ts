@@ -12,38 +12,8 @@ class StocksRepository implements IStocksRepository {
     this.repository = getRepository(Stock);
   }
 
-  async output({
-    itemId,
-    quantity,
-    value,
-    expirationDate,
-  }: IStockRecordDTO): Promise<Stock> {
-    const stock = this.repository.create({
-      itemId,
-      quantity,
-      value,
-      expirationDate,
-      type: 'output',
-    });
-
-    await this.repository.save(stock);
-
-    return stock;
-  }
-
-  async input({
-    itemId,
-    quantity,
-    value,
-    expirationDate,
-  }: IStockRecordDTO): Promise<Stock> {
-    const stock = this.repository.create({
-      itemId,
-      quantity,
-      value,
-      expirationDate,
-      type: 'input',
-    });
+  async create(data: IStockRecordDTO): Promise<Stock> {
+    const stock = this.repository.create(data);
 
     await this.repository.save(stock);
 

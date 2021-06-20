@@ -35,13 +35,13 @@ export class FakeItemsRepository implements IItemsRepository {
     return this.items.find(item => item.id === id);
   }
 
-  async findByNameFromUser(name: string, userId: string): Promise<Item> {
+  async findByNameAndUserId(name: string, userId: string): Promise<Item> {
     return this.items.find(
       item => item.name === name && item.userId === userId,
     );
   }
 
-  async listAvailableAllFromUser({
+  async findAllAvailableByUserId({
     userId,
     category,
     measureUnity,

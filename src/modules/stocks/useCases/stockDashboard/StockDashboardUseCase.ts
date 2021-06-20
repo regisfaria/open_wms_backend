@@ -22,7 +22,7 @@ class StockDashboardUseCase {
   ) {}
 
   async execute(userId: string): Promise<IResponse[]> {
-    const items = await this.itemsRepository.listAvailableAllFromUser({
+    const items = await this.itemsRepository.findAllAvailableByUserId({
       userId,
     });
 

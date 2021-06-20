@@ -63,13 +63,13 @@ class ItemsRepository implements IItemsRepository {
     });
   }
 
-  async findByNameFromUser(name: string, userId: string): Promise<Item> {
+  async findByNameAndUserId(name: string, userId: string): Promise<Item> {
     const item = await this.repository.findOne({ where: { userId, name } });
 
     return item;
   }
 
-  async listAvailableAllFromUser({
+  async findAllAvailableByUserId({
     userId,
     name,
     category,

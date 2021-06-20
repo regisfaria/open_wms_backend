@@ -21,7 +21,7 @@ class CreateItemUseCase {
     daysToNotifyExpirationDate,
     minimumStock,
   }: ICreateItemDTO): Promise<Item> {
-    const itemAlreadyExist = await this.itemsRepository.findByNameFromUser(
+    const itemAlreadyExist = await this.itemsRepository.findByNameAndUserId(
       name,
       userId,
     );

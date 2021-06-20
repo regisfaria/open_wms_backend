@@ -16,7 +16,7 @@ class ListAvailableItemUseCase {
     measureUnity,
     userId,
   }: IListAvailableItemsDTO): Promise<Item[]> {
-    const items = await this.itemRepository.listAvailableAllFromUser({
+    const items = await this.itemRepository.findAllAvailableByUserId({
       userId,
       category,
       measureUnity,

@@ -42,7 +42,7 @@ class UpdateItemUseCase {
     }
 
     if (name) {
-      const nameAlreadyExist = await this.itemsRepository.findByNameFromUser(
+      const nameAlreadyExist = await this.itemsRepository.findByNameAndUserId(
         name,
         userId,
       );

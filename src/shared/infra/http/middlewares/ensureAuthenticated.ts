@@ -17,7 +17,7 @@ export async function ensureAuthenticated(
 
   if (!authHeader) {
     throw new AppError(
-      'ER-Você precisa se autenticar para acessar esse recurso.',
+      'Você precisa se autenticar para acessar esse recurso.',
       401,
     );
   }

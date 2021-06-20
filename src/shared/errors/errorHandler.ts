@@ -14,7 +14,7 @@ export function errorHandler(
     });
   }
 
-  console.log(err.message);
+  console.error(err.message);
 
   return response.status(500).json({
     status: 'error',

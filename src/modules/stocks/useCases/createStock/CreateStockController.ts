@@ -15,7 +15,7 @@ class CreateStockController {
       quantity,
       value,
       expirationDate,
-      type,
+      type: type as 'input' | 'output',
     });
 
     return response.status(201).json({ stock });

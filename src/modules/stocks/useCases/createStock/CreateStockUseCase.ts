@@ -6,11 +6,11 @@ import { IStocksRepository } from '@modules/stocks/repositories/IStocksRepositor
 import { AppError } from '@shared/errors/AppError';
 
 interface IRequest {
-  type: string;
+  type: 'input' | 'output';
   itemId: string;
   quantity: number;
   value: number;
-  expirationDate: string;
+  expirationDate?: string;
 }
 
 @injectable()
@@ -40,6 +40,12 @@ class CreateStockUseCase {
 
     if (!item) {
       throw new AppError('Item não existe');
+    }
+
+    const quantityInStock = await this.stockRepository.sumTotalQtd(itemId);
+
+    if (type === 'output' && quantityInStock - quantity < 0) {
+      throw new AppError('Quantidade a ser inserida invalida');
     }
 
     if (quantity < 1) {

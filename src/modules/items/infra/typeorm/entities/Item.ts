@@ -1,4 +1,3 @@
-import { Expose } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -54,12 +53,5 @@ export class Item {
   @Column()
   measureUnity: string;
 
-  @Expose({ name: 'imageUrl' })
-  getImageUrl(): string | null {
-    if (!this.image) {
-      return null;
-    }
-
-    return this.image ? `${process.env.APP_API_URL}/files/${this.image}` : null;
-  }
+  imageUrl?: string;
 }

@@ -37,12 +37,10 @@ class ItemsRepository implements IItemsRepository {
     return item;
   }
 
-  async update(item: Item): Promise<void> {
+  async update(item: Item): Promise<Item> {
     await this.repository.save(item);
-  }
 
-  async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
+    return item;
   }
 
   async findById(id: string): Promise<Item> {

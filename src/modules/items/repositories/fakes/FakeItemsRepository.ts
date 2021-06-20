@@ -12,33 +12,40 @@ export class FakeItemsRepository implements IItemsRepository {
   async create(data: ICreateItemDTO): Promise<Item> {
     const item = new Item();
 
-    Object.assign(item, { id: uuid(), ...data });
+    Object.assign(item, {
+      id: uuid(),
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
     this.items.push(item);
 
     return item;
   }
 
-  async update(item: Item): Promise<void> {
+  async update(item: Item): Promise<Item> {
     const itemIndex = this.items.findIndex(
       itemToFind => itemToFind.id === item.id,
     );
 
     this.items[itemIndex] = item;
-  }
 
-  async delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    return item;
   }
 
   async findById(id: string): Promise<Item> {
-    return this.items.find(item => item.id === id);
+    const item = this.items.find(item => item.id === id);
+
+    return item;
   }
 
   async findByNameAndUserId(name: string, userId: string): Promise<Item> {
-    return this.items.find(
+    const item = this.items.find(
       item => item.name === name && item.userId === userId,
     );
+
+    return item;
   }
 
   async findAllAvailableByUserId({
@@ -47,21 +54,21 @@ export class FakeItemsRepository implements IItemsRepository {
     measureUnity,
     name,
   }: IListAvailableItemsDTO): Promise<Item[]> {
-    const items = this.items.filter(item => {
-      if (
-        (category && item.category === category) ||
-        (measureUnity && item.measureUnity === measureUnity) ||
-        (name && item.name === name && item.userId === userId)
-      ) {
-        return item;
-      }
+    let items = this.items.filter(
+      item => item.userId === userId && item.active,
+    );
 
-      if (!category && !measureUnity && !name && item.userId === userId) {
-        return item;
-      }
+    if (name) {
+      items = this.items.filter(item => item.name === name);
+    }
 
-      return null;
-    });
+    if (category) {
+      items = this.items.filter(item => item.category === category);
+    }
+
+    if (measureUnity) {
+      items = this.items.filter(item => item.measureUnity === measureUnity);
+    }
 
     return items;
   }

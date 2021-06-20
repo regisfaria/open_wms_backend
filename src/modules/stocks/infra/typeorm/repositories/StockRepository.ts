@@ -20,6 +20,12 @@ class StocksRepository implements IStocksRepository {
     return stock;
   }
 
+  async update(stock: Stock): Promise<Stock> {
+    await this.repository.save(stock);
+
+    return stock;
+  }
+
   async sumBalance(itemId: string): Promise<number> {
     const stocks = await this.repository.find({ where: { itemId } });
 

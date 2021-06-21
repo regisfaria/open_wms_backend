@@ -1,5 +1,6 @@
 # Open WMS Backend
-  
+
+![test-coverage](https://i.pinimg.com/564x/63/d2/93/63d293b972479811b7ccf45efdc05f52.jpg)
 ## Apresentação
 
 Esse projeto foi pensado e desenvolvido para o primeiro hackathon da Rocketseat.

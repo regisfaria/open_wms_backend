@@ -1,65 +1,74 @@
 # Open WMS Backend
 
 ![test-coverage](https://i.pinimg.com/564x/63/d2/93/63d293b972479811b7ccf45efdc05f52.jpg)
-## Apresentação
+## Summary
 
-Esse projeto foi pensado e desenvolvido para o primeiro hackathon da Rocketseat.
+This project was thought and developed for the Rocketseat hackathon.
 
-Minha equipe está desenvolvendo um WMS(Warehouse management system) grátis para o público, onde qualquer pessoa pode se tornar um usuário e realizar o controle de inventário de sua empresa. Visamos atingir um público que não acreditam ser valido adquirir um sistema de WMS(pois geralmente é muito caro).
+My team is developing a WMS(Warehouse management system) free of charge for the public, where anybody could be a user and control their business warehouse. We intend to help people without conditions to buy a WMS.
 
-Esse projeto é desenvolvido com JS, TS, Docker(Imagem BD & Instanciamento do app), Jest(Testes), Typeorm(DB ORM), Swagger/SwaggerUI(Documentação) e Postgres(DB).
+## Technologies
+- Javascript
+- Typescript
+- Docker(DB image and app instance)
+- Jest (Tests)
+- TypeORM
+- Swagger/SwaggerUI (Docs)
+- Postgres (DB)
+
 
 ## Instalação & Execução
 
-Você vai precisar de **npm/yarn**, **nodejs**, **docker** e **docker-compose** para poder rodar nosso backend.
+You will need of **npm/yarn**, **nodejs**, **docker** and **docker-compose** to run our backend.
 
-Instale as dependências com:
+Install the dependencies with:
 
 ```shell
-yarn OU npm install
+yarn OR npm install
 ```
 
-Temos um arquivo na pasta raiz do projeto, chamado **"ormconfig.example.json"**. Este arquivo contém as configuraçōes do banco e você deve copiar seu conteúdo e criar um **"ormconfig.json"**. Da mesma forma, temos um arquivo **".env.example"**, onde também é preciso copiar seu conteúdo e criar um **".env"**(Em ambos já deixamos com valores padrōes para rodar o projeto, só altere caso precise alterar pro seu caso).
+We have a file on the root folder called **"ormconfig.example.json"**. This file contains the database configurations, and you need to copy your content and create another file **"ormconfig.json"**. Also, we have a file **".env.example"**, where you must need to copy all content and paste it on a new file **".env"**. (Both files already have default values to be necessary to run the project, edit if you need)
 
-Em seguida, rode o seguinte comando para rodar as migrations do banco de dados:
+
+After that, run the command below to update the database with migrations:
 
 ```shell
 yarn typeorm migration:run
 ```
 
-Como já mencionado acima, utilizamos o docker-compose para ser responsável por rodar nossa aplicação, em conjunto com seu banco de dados.
-Para instalar nosso docker-compose:
+As mentioned above, we use docker-compose to be responsible for running our application, together with the database.
+to run our docker-compose:
 
 ```shell
 docker-compose up -d
 ```
 
-Após a finalização da instalação, a URL do projeto vai estar disponível em: **http://localhost:3333**.
-Certifique-se de que esta porta está disponível.
+After finish the installation, the URL of the project will be available on **http://localhost:3333**.
+Verify if this port is available.
 
-Você pode observar os logs do backend através do seguinte comando:
+You can observe the logs of the backend with the command below:
 
 ```shell
 docker logs hacka_wms -f 
 ```
 
-Disponibilizamos uma rota para você garantir que a aplicação está online, você pode testar com um **GET em http://localhost:3333/ping**.
+We created a route to check if the application is online. You can check that with a **GET on http://localhost:3333/ping**
 
-Nossa aplicação também conta com uma documentação de todas as suas features e ela está disponível em: **http://localhost:3333/api_docs**.
+Our application also has documentation with all your features, and it's available on **http://localhost:3333/api_docs**.
 
-**OBS:** O docker-compose vai instalar uma instância do postgres na porta **5432**. Se esta porta já estiver em uso, talvez você tenha algum problema. Certifique-se de que ela também está disponível.
+**OBS:** The docker-compose will install an instance of Postgres on port **5432**. If this port is already in use, maybe you will have any problems. Make sure that this port is available. 
 
-**OBS 2:** Nosso backend também sobe um segundo servidor express na porta **3332**, este servidor é responsável por notificar usuários de produtos perto de vencimento/estoque baixo, rodando cronjobs. Certifique-se de que essa porta também está disponível.
+**OBS 2:** Our backend creates a second server express on port **3332**. This server is responsible for notifying users about products with short days and low volume, running cronjobs. Check if this port is available too. 
 
-**OBS 3:** Por padrão, os emails serão enviados em modo de desenvolvimento([ethereal](https://ethereal.email/)), você pode ver o email enviado através dos logs do app. Caso deseje utilizar AWS, é preciso configurar suas credências nas variáveis ambientes do `.env`. Já deixamos o padrão no `.env.example`, caso opte por testar essa integração.
+**OBS 3:** By default, the application will send the emails in development mode([ethereal](https://ethereal.email/)). You can see the logs of the emails sent. In case you desire to use AWS will be necessary to set your credentials on `.env`. We make it available by default on `.env.example`.
 
-## Testes
+## Tests
 
-Nossa aplicação conta com **testes unitários**([jest](https://jestjs.io/pt-BR/)) e **testes de integração**([supertest](https://github.com/visionmedia/supertest#readme)) para suas principais funcionalidades.
+Our application has **unit tests**([jest](https://jestjs.io)) and **e2e tests**([supertest](https://github.com/visionmedia/supertest#readme)), for the main functionalities.
 
-Para rodar os testes, **certifique-se de criar uma database chamada "hacka_wms_tests"**.
+For run tests, **make sure that you create a database called "hacka_wms_tests"**
 
-Em seguida, use o seguinte comando:
+After that, run the command below:
 
 ```shell
 yarn test OU npm run test
